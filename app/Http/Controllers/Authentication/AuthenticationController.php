@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Authentication;
 
-use App\Action\OtpSendAction;
-use App\Action\RegisterAction;
+use App\Action\Authentication\OtpSendAction;
+use App\Action\Authentication\RegisterAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\OtpRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\OtpMailer;
+use App\Trait\HasCustomResponse;
 use App\Trait\HasOtp;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthenticationController extends Controller
 {
-    use HasOtp;
+    use HasOtp , HasCustomResponse;
     /**
      * Handle register admin
      */
@@ -27,17 +28,7 @@ class AuthenticationController extends Controller
 
         $response = RegisterAction::handle_action($validatedData);
         
-        if($response instanceof Exception){
-            return response()->json([
-                'status' => false,
-                'error' => $response->getMessage()
-            ], 500);
-        }else{
-            return response()->json([
-                'status' => true,
-                'data' => UserResource::make($response)
-            ], 201);
-        }
+        return $this->custom_response($response , UserResource::make($response) , 201, 422, 'Register Failed');
     }
 
 
@@ -75,17 +66,8 @@ class AuthenticationController extends Controller
 
         $response = OtpSendAction::handle_action($validatedData['otp_code']);
 
-        if($response instanceof Exception){
-            return response()->json([
-                'status' => false,
-                'error' => $response->getMessage()
-            ] , 500);
-        }else{
-            $status = !$response ? 422 : 200;
-            return response()->json([
-                'status' => $status === 200 ? true : false,
-                'data' => $status === 200 ? UserResource::make($response) : 'Otp code not valid'
-            ] , $status);
-        }
+        return $this->custom_response($response , UserResource::make($response) , 200, 422 , 'Otp code not valid');
+
+        
     }
 }

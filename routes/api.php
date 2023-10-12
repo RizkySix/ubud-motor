@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthenticationController;
+use App\Http\Controllers\Catalog\TempCatalogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,12 +27,27 @@ Route::controller(AuthenticationController::class)->group(function() {
 
 //AUTHENTICATED ENDPOINT
 Route::middleware(['auth:sanctum'])->group(function() {
-    Route::controller(AuthenticationController::class)->group(function() {
 
-        //ENDPOINT FOR UNVERIFIED EMAIL
-       Route::middleware(['un.verified.email'])->group(function() {
+     //ENDPOINT FOR UNVERIFIED EMAIL
+    Route::middleware(['un.verified.email'])->group(function() {
+
+       //ENDPOINT AUTH CONTROLLER
+       Route::controller(AuthenticationController::class)->group(function() {
             Route::post('/otp/resend' , 'resend_otp')->middleware('throttle:anti.spam.mail')->name('resend.otp');
             Route::post('/otp/send' , 'send_otp')->name('send.otp');
        });
+
+    });
+
+    //ENDPOINT FOR VERIFIED EMAIL
+    Route::middleware(['is.verified.email'])->group(function() {
+        
+        //ENDPOINT TEMPORARY CATALOG CONTROLLER
+        Route::controller(TempCatalogController::class)->group(function() {
+            Route::post('/temp/catalog' , 'upload_temporary_catalog')->name('upload.temp.catalog');
+            Route::delete('/temp/catalog' , 'delete_temporary_catalog')->name('delete.temp.catalog');
+            Route::put('/temp/catalog' , 'reorder_temporary_catalog')->name('reorder.temp.catalog');
+        });
+
     });
 });
