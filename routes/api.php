@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthenticationController;
+use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Catalog\TempCatalogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,5 +50,8 @@ Route::middleware(['auth:sanctum'])->group(function() {
             Route::put('/temp/catalog' , 'reorder_temporary_catalog')->name('reorder.temp.catalog');
         });
 
+
+        //ENDPOINT CATALOG
+        Route::apiResource('/catalog' , CatalogController::class);
     });
 });

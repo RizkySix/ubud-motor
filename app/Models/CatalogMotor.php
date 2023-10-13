@@ -16,6 +16,6 @@ class CatalogMotor extends Model
      */
     public function price()
     {
-        return $this->hasOne(CatalogPrice::class);
+        return $this->hasMany(CatalogPrice::class);
     }
 }
