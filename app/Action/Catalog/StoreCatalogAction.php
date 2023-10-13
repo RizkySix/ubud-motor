@@ -41,12 +41,16 @@ class StoreCatalogAction
             
                     $movingPath[$temp->temp_path] = $oriPath;
                   
-                    if ($count === 1) {
-                        $payloadCatalog['first_catalog'] = $oriPath;
-                    } elseif ($count === 2) {
-                        $payloadCatalog['second_catalog'] = $oriPath;
-                    } elseif ($count === 3) {
-                        $payloadCatalog['third_catalog'] = $oriPath;
+                    switch ($count) {
+                        case 1:
+                            $payloadCatalog['first_catalog'] = $oriPath;
+                            break;
+                        case 2:
+                            $payloadCatalog['second_catalog'] = $oriPath;
+                            break;
+                        case 3:
+                            $payloadCatalog['third_catalog'] = $oriPath;
+                            break;
                     }
             
                     $count++;
