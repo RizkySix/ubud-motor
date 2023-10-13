@@ -53,5 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
         //ENDPOINT CATALOG
         Route::apiResource('/catalog' , CatalogController::class);
+        Route::delete('/catalog/{catalog}/image' , [CatalogController::class , 'delete_catalog_image'])->middleware('catalog.image')->name('single.delete.catalog.image');
     });
 });

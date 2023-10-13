@@ -28,19 +28,19 @@ class StoreCatalogAction
                 //Reorder data
                 $data['reorder'] ? asort($newPath) : null;
             
-                //Pindahkan path catalog dari temp ke newpath
                 $getTempCatalog = DB::table('temp_catalogs')->whereIn('temp_path', array_keys($newPath));
             
                 $tempCatalog = $getTempCatalog->orderBy('position', 'ASC')->get();
-            
+                $movingPath = [];
                 $count = 1;
+
                 foreach ($tempCatalog as $temp) {
                     $fileName = explode('/', $temp->temp_path);
                     $fileName = end($fileName);
                     $oriPath = 'Catalog/' . $data['motor_name'] . '/' . $fileName;
             
-                    Storage::move($temp->temp_path, $oriPath);
-            
+                    $movingPath[$temp->temp_path] = $oriPath;
+                  
                     if ($count === 1) {
                         $payloadCatalog['first_catalog'] = $oriPath;
                     } elseif ($count === 2) {
@@ -58,11 +58,16 @@ class StoreCatalogAction
                 $newCatalog = CatalogMotor::create($payloadCatalog);
             
                 //Tambahkan package pricingnya
-                $newCatalog->price()->create([
-                    'package' => $data['package'],
-                    'duration' => $data['duration'],
-                    'price' => $data['price'],
-                ]);
+                foreach($data['price_lists'] as &$price){
+                    $price['catalog_motor_id'] = $newCatalog->id;
+                }
+
+                DB::table('catalog_prices')->insert($data['price_lists']);
+
+                //pindahkan seluruh catalog dari temp ke oripath
+                foreach($movingPath as $oldPath => $newPath){
+                    Storage::move($oldPath, $newPath);
+                }
             });
             
             return $newCatalog;

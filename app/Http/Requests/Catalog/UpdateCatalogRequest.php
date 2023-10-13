@@ -5,8 +5,9 @@ namespace App\Http\Requests\Catalog;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class StoreCatalogRequest extends FormRequest
+class UpdateCatalogRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +25,10 @@ class StoreCatalogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'motor_name' => 'required|string|min:3|unique:catalog_motors',
-            'path_catalog' => 'required|array',
-            'path_catalog.*' => 'required|string',
-            'price_lists' => 'required|array',
-            'price_lists.*' => 'required|array',
-            'price_lists.*.price' => 'required|numeric',
-            'price_lists.*.duration' => 'required|string|min:3',
-            'price_lists.*.package' => 'required|string|min:3',
+            'motor_name' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_motors')->ignore($this->route('catalog'))],
+            'first_catalog' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:11500',
+            'second_catalog' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:11500',
+            'third_catalog' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:11500',
         ];
     }
 

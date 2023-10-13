@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('temp_catalogs', function (Blueprint $table) {
             $table->id();
             $table->string('temp_path');
-            $table->tinyInteger('position' , false , true)->nullable();
+            $table->tinyInteger('position' , false , true)->nullable()->default(0);
         });
     }
 
