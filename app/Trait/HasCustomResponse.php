@@ -3,8 +3,13 @@
 namespace App\Trait;
 
 use Exception;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * All custom response made by me is here
+ */
 trait HasCustomResponse
 {
     /**
@@ -24,5 +29,15 @@ trait HasCustomResponse
                 'data' => $status === $success ? $succesResponse : $failureMsg
             ] , $status);
        }
+    }
+
+    /**
+     * Set response failed request validation
+     */
+    public function validation_error(Validator $validator) : HttpResponseException
+    {
+        throw new HttpResponseException(response([
+            'validation_errors' => $validator->getMessageBag()
+        ] , 400));
     }
 }

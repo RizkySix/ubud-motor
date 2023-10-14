@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests\Authentication;
 
+use App\Trait\HasCustomResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegisterRequest extends FormRequest
 {
+    use HasCustomResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -33,8 +35,6 @@ class RegisterRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response([
-            'validation_errors' => $validator->getMessageBag()
-        ] , 400));
+        $this->validation_error($validator);
     }
 }

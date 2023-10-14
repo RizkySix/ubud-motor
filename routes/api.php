@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthenticationController;
+use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Catalog\CatalogPriceController;
 use App\Http\Controllers\Catalog\TempCatalogController;
@@ -25,6 +26,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //GUEST ENDPOINT
 Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/admin/register' , 'register')->name('register.admin');
+    Route::post('/customer/register' , 'register_customer')->name('register.customer');
+    Route::post('/customer/login' , 'login_customer')->name('login.customer');
 });
 
 //AUTHENTICATED ENDPOINT
@@ -37,6 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function() {
        Route::controller(AuthenticationController::class)->group(function() {
             Route::post('/otp/resend' , 'resend_otp')->middleware('throttle:anti.spam.mail')->name('resend.otp');
             Route::post('/otp/send' , 'send_otp')->name('send.otp');
+
+            Route::post('/customer/logout' , 'logout_customer')->name('logout.customer');
        });
 
     });
@@ -61,5 +66,10 @@ Route::middleware(['auth:sanctum'])->group(function() {
             Route::put('/catalog/prices/{price}' , 'update_prices')->name('update.prices');
             Route::delete('/catalog/prices/{price}' , 'delete_prices')->middleware('catalog.price.exists')->name('delete.prices');
         });
+    });
+
+    //ENDPOINT BOOKING FOR CUSTOMER THAT NO NEED VERIFIED OR UNVERIFIED MIDDLEWARE
+    Route::controller(BookingController::class)->group(function() {
+        Route::post('/booking' , 'add_booking')->name('add.booking');
     });
 });

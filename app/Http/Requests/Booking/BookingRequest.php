@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Catalog;
+namespace App\Http\Requests\Booking;
 
 use App\Trait\HasCustomResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreCatalogRequest extends FormRequest
+class BookingRequest extends FormRequest
 {
     use HasCustomResponse;
     /**
@@ -26,14 +25,14 @@ class StoreCatalogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'motor_name' => 'required|string|min:3|unique:catalog_motors',
-            'path_catalog' => 'required|array',
-            'path_catalog.*' => 'required|string',
-            'price_lists' => 'required|array',
-            'price_lists.*' => 'required|array',
-            'price_lists.*.price' => 'required|numeric',
-            'price_lists.*.duration' => 'required|string|min:3',
-            'price_lists.*.package' => 'required|string|min:3',
+            'full_name' => 'required|string|min:3',
+            'total_unit' => 'required|numeric|min:1',
+            'email' => 'required|email:dns',
+            'whatsapp_number' => 'required|string',
+            'motor_name' => 'required|string',
+            'delivery_address' => 'required|string',
+            'pickup_address' => 'required|string',
+            'additional_message' => 'nullable|string',
         ];
     }
 

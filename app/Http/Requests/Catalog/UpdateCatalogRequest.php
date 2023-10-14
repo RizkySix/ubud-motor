@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Catalog;
 
+use App\Trait\HasCustomResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -9,6 +10,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateCatalogRequest extends FormRequest
 {
+    use HasCustomResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,8 +36,6 @@ class UpdateCatalogRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response([
-            'validation_errors' => $validator->getMessageBag()
-        ] , 400));
+        $this->validation_error($validator);
     }
 }

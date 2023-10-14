@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Authentication;
 
+use App\Action\Authentication\CustomerLoginAction;
+use App\Action\Authentication\CustomerLogoutAction;
+use App\Action\Authentication\CustomerRegisterAction;
 use App\Action\Authentication\OtpSendAction;
 use App\Action\Authentication\RegisterAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Authentication\CustomerLoginRequest;
+use App\Http\Requests\Authentication\CustomerRegisterRequest;
 use App\Http\Requests\Authentication\OtpRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
+use App\Http\Resources\CustomerResource;
 use App\Http\Resources\UserResource;
 use App\Mail\OtpMailer;
 use App\Trait\HasCustomResponse;
@@ -70,4 +76,45 @@ class AuthenticationController extends Controller
 
         
     }
+
+
+
+
+
+
+    //method for customers just simple authentication
+    /**
+     * Handle register customer
+     */
+    public function register_customer(CustomerRegisterRequest $request) : JsonResponse
+    {
+        $validatedData = $request->validated();
+
+        $response = CustomerRegisterAction::handle_action($validatedData);
+
+        return $this->custom_response($response , CustomerResource::make($response), 201 , 422 , 'Failed to register folks');
+    }
+
+    /**
+     * Handle login customer
+     */
+    public function login_customer(CustomerLoginRequest $request) : JsonResponse
+    {
+        $validatedData = $request->validated();
+
+        $response = CustomerLoginAction::handle_action($validatedData);
+
+        return $this->custom_response($response , CustomerResource::make($response) , 200 , 404, 'Invalid Customer credentials');
+    }
+
+    /**
+     * Handle logout customer
+     */
+    public function logout_customer() : JsonResponse
+    {
+        $response = CustomerLogoutAction::handle_action();
+
+        return $this->custom_response($response , 'Customer logout success' , 200 , 422 ,'Customer failed logout');
+    }
+
 }
