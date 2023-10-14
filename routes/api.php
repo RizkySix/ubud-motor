@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Authentication\AuthenticationController;
 use App\Http\Controllers\Catalog\CatalogController;
+use App\Http\Controllers\Catalog\CatalogPriceController;
 use App\Http\Controllers\Catalog\TempCatalogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,5 +55,11 @@ Route::middleware(['auth:sanctum'])->group(function() {
         //ENDPOINT CATALOG
         Route::apiResource('/catalog' , CatalogController::class);
         Route::delete('/catalog/{catalog}/image' , [CatalogController::class , 'delete_catalog_image'])->middleware('catalog.image')->name('single.delete.catalog.image');
+        
+        Route::controller(CatalogPriceController::class)->group(function() {
+            Route::post('/catalog/prices' , 'add_prices')->name('add.prices');
+            Route::put('/catalog/prices/{price}' , 'update_prices')->name('update.prices');
+            Route::delete('/catalog/prices/{price}' , 'delete_prices')->middleware('catalog.price.exists')->name('delete.prices');
+        });
     });
 });

@@ -67,5 +67,7 @@ class Kernel extends HttpKernel
         'un.verified.email' => \App\Http\Middleware\UnVerifiedEmail::class,
         'is.verified.email' => \App\Http\Middleware\VerifiedEmail::class,
         'catalog.image' => \App\Http\Middleware\CatalogImage::class,
+        'catalog.price.exists' => \App\Http\Middleware\CatalogPriceMinimunData::class,
     ];
 }
+

@@ -38,7 +38,7 @@ class UpdateCatalogAction
 
             $catalog->update($validatedData);
 
-            return $catalog;
+            return $catalog->load(['price']);
         } catch (Exception $e) {
             return $e;
         }

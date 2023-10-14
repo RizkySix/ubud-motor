@@ -72,6 +72,8 @@ class StoreCatalogAction
                 foreach($movingPath as $oldPath => $newPath){
                     Storage::move($oldPath, $newPath);
                 }
+
+                $newCatalog->load(['price']);
             });
             
             return $newCatalog;
