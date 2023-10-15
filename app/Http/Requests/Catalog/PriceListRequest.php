@@ -31,7 +31,8 @@ class PriceListRequest extends FormRequest
             'price_lists' => 'required|array',
             'price_lists.*' => 'required|array',
             'price_lists.*.price' => 'required|numeric',
-            'price_lists.*.duration' => 'required|string|min:3',
+            'price_lists.*.duration' => 'required|numeric|min:1',
+            'price_lists.*.duration_suffix' => 'required|string|min:3',
             'price_lists.*.package' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_prices' , 'package')->where('catalog_motor_id' , $this->input('catalog_motor_id'))]
         ];
     }

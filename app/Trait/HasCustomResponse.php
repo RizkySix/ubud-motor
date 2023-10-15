@@ -2,6 +2,7 @@
 
 namespace App\Trait;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -39,5 +40,20 @@ trait HasCustomResponse
         throw new HttpResponseException(response([
             'validation_errors' => $validator->getMessageBag()
         ] , 400));
+    }
+
+
+    /**
+     * Validation for daily booking
+     */
+    public function is_daily(string $durationSuffix) : bool
+    {
+        $hourFormat = ['jam' , 'Jam' , 'jams' , 'Jams' , 'hour' , 'hours' , 'Hour' , 'Hours'];
+
+        if(array_search($durationSuffix , $hourFormat)){
+            return true;
+        }
+
+        return false;
     }
 }

@@ -18,9 +18,13 @@ return new class extends Migration
             $table->string('email');
             $table->string('whatsapp_number' , 50);
             $table->string('motor_name' , 30);
+            $table->string('package' , 50);
+            $table->decimal('amount' , 10 , 2 , true);
             $table->string('delivery_address');
             $table->string('pickup_address');
             $table->string('additional_message')->nullable();
+            $table->boolean('is_confirmed')->default(false);
+            $table->boolean('is_active')->default(true);
         });
     }
 

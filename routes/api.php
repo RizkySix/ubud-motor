@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::delete('/catalog/{catalog}/image' , [CatalogController::class , 'delete_catalog_image'])->middleware('catalog.image')->name('single.delete.catalog.image');
         
         Route::controller(CatalogPriceController::class)->group(function() {
-            Route::post('/catalog/prices' , 'add_prices')->name('add.prices');
+            Route::post('/catalog/prices' , 'add_prices')->middleware('catalog.motor.exists')->name('add.prices');
             Route::put('/catalog/prices/{price}' , 'update_prices')->name('update.prices');
             Route::delete('/catalog/prices/{price}' , 'delete_prices')->middleware('catalog.price.exists')->name('delete.prices');
         });
@@ -70,6 +70,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     //ENDPOINT BOOKING FOR CUSTOMER THAT NO NEED VERIFIED OR UNVERIFIED MIDDLEWARE
     Route::controller(BookingController::class)->group(function() {
-        Route::post('/booking' , 'add_booking')->name('add.booking');
+        Route::post('/booking' , 'add_booking')->middleware(['catalog.motor.exists' , 'catalog.price.exists' , 'daily.booking'])->name('add.booking');
     });
 });

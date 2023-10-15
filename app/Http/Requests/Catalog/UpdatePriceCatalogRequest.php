@@ -30,7 +30,8 @@ class UpdatePriceCatalogRequest extends FormRequest
         return [
             'package' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_prices' , 'package')->where('catalog_motor_id' , $priceInstace->catalog_motor_id)->ignore($priceInstace)],
             'price' => 'required|numeric',
-            'duration' => 'required|string|min:3'
+            'duration' => 'required|numeric|min:1',
+            'duration_suffix' => 'required|string|min:3'
         ];
     }
 

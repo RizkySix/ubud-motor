@@ -68,6 +68,8 @@ class Kernel extends HttpKernel
         'is.verified.email' => \App\Http\Middleware\VerifiedEmail::class,
         'catalog.image' => \App\Http\Middleware\CatalogImage::class,
         'catalog.price.exists' => \App\Http\Middleware\CatalogPriceMinimunData::class,
+        'catalog.motor.exists' => \App\Http\Middleware\MakeSureMotorExists::class,
+        'daily.booking' => \App\Http\Middleware\DailyPackageBooking::class,
     ];
 }
 

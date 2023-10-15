@@ -15,8 +15,12 @@ class Booking extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    public function getRouteKeyName()
+
+    /**
+     * Relation hasMany booking detail
+     */
+    public function detail()
     {
-        return 'uuid';
+        return $this->hasMany(BookingDetail::class);
     }
 }

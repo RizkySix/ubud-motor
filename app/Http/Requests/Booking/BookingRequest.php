@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Booking;
 
 use App\Trait\HasCustomResponse;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,8 +31,12 @@ class BookingRequest extends FormRequest
             'email' => 'required|email:dns',
             'whatsapp_number' => 'required|string',
             'motor_name' => 'required|string',
+            'package' => 'required|numeric',
+            'amount' => 'required|numeric',
             'delivery_address' => 'required|string',
             'pickup_address' => 'required|string',
+            'rental_date' => 'required|date|after_or_equal:' . now(),
+            'return_date' => 'nullable|date|minimun_two_days_of_booking|after_or_equal:rental_date',
             'additional_message' => 'nullable|string',
         ];
     }

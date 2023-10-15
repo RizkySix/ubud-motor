@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(CatalogMotor::class);
             $table->string('package' , 30);
-            $table->string('duration' , 30);
+            $table->integer('duration' , false , true);
+            $table->string('duration_suffix' , 30);
             $table->decimal('price' , 10 , 2 , true);
         });
     }
