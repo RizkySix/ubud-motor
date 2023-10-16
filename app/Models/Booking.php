@@ -25,6 +25,13 @@ class Booking extends Model
         return $this->hasMany(BookingDetail::class);
     }
 
+    /**
+     * Relation belongsTo Customer
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
     /**
      * Setter information booking package
@@ -42,12 +49,22 @@ class Booking extends Model
     }
 
      /**
-     * Getter for amount
+     * Accesor for amount
      */
     protected function amount() : Attribute
     {
         return Attribute::make(
             get: fn($value) => number_format($value , 2 , '.' , '')
+        );
+    }
+
+     /**
+     * Accesor for card image
+     */
+    protected function cardImage() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => asset('storage/' . $value)
         );
     }
 }

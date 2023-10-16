@@ -19,4 +19,12 @@ class Customer extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Relation hasMany Booking
+     */
+    public function booking()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
 }

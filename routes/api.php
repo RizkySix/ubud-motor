@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthenticationController;
+use App\Http\Controllers\Booking\AdminBookingController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Catalog\CatalogPriceController;
@@ -66,11 +67,18 @@ Route::middleware(['auth:sanctum'])->group(function() {
             Route::put('/catalog/prices/{price}' , 'update_prices')->name('update.prices');
             Route::delete('/catalog/prices/{price}' , 'delete_prices')->middleware('catalog.price.exists')->name('delete.prices');
         });
+
+        //ENDPOINT CONFIRM BOOKING FOR ADMIN
+        Route::controller(AdminBookingController::class)->group(function (){
+            Route::put('/booking/confirmed/{booking}' , 'confirm_booking')->middleware('confirm.booking')->name('admin.confirm.booking');
+        });
     });
 
     //ENDPOINT BOOKING FOR CUSTOMER THAT NO NEED VERIFIED OR UNVERIFIED MIDDLEWARE
     Route::controller(BookingController::class)->group(function() {
-        Route::post('/booking' , 'add_booking')->middleware(['catalog.motor.exists' , 'catalog.price.exists' , 'daily.booking'])->name('add.booking');
-        Route::get('/booking/calculate' , 'calculate_price')->middleware('daily.booking')->name('calculate.price.booking');
+        Route::post('/booking' , 'add_booking')->middleware(['catalog.motor.exists' , 'catalog.price.exists' , 'daily.booking' , 'compare.booking.amount'])->name('add.booking');
+        Route::get('/booking/price' , 'get_related_price')->middleware('catalog.motor.exists')->name('related.price.booking');
+        Route::get('/booking/calculate' , 'calculate_price')->middleware(['catalog.price.exists', 'daily.booking'])->name('calculate.price.booking');
+        Route::post('/booking/extension' , 'add_rental_extension')->middleware(['daily.booking' , 'rental.extension' , 'compare.booking.amount'])->name('add.rental.extension');
     });
 });

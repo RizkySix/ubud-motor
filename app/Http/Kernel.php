@@ -70,6 +70,9 @@ class Kernel extends HttpKernel
         'catalog.price.exists' => \App\Http\Middleware\CatalogPriceMinimunData::class,
         'catalog.motor.exists' => \App\Http\Middleware\MakeSureMotorExists::class,
         'daily.booking' => \App\Http\Middleware\DailyPackageBooking::class,
+        'compare.booking.amount' => \App\Http\Middleware\CompareBookingAmount::class,
+        'confirm.booking' => \App\Http\Middleware\ConfirmBooking::class,
+        'rental.extension' => \App\Http\Middleware\RentalExtension::class,
     ];
 }
 

@@ -14,6 +14,12 @@ class CatalogPriceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'catalog_motor_id' => $this->catalog_motor_id,
+            'package' => $this->package,
+            'duration' => $this->duration . ' ' . $this->duration_suffix,
+            'price' => $this->price
+        ];
     }
 }

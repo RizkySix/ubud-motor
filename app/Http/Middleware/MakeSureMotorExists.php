@@ -18,10 +18,18 @@ class MakeSureMotorExists
      */
     public function handle(Request $request, Closure $next): Response
     {
-       if($request->route()->getName() === 'add.booking'){
+       $currentRoute = $request->route()->getName();
+
+       switch ($currentRoute) {
+        case 'add.booking':
             $this->getMotorName = CatalogMotor::where('motor_name' , $request->motor_name)->count();
-       }elseif($request->route()->getName() === 'add.prices'){
+            break;
+        case 'add.prices' : 
             $this->getMotorName = CatalogMotor::where('id' , $request->catalog_motor_id)->count();
+            break;
+        case 'related.price.booking' :
+            $this->getMotorName = CatalogMotor::where('id' , $request->motor)->count();
+            break;
        }
        
         if($this->getMotorName < 1){

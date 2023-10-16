@@ -22,23 +22,43 @@ class BookingDetail extends Model
         return $this->belongsTo(Booking::class);
     }
 
+
     /**
-     * Mutator rental date
+     * Relation hasOne Rental extension
+     */
+    public function rental_extension()
+    {
+        return $this->hasOne(RentalExtension::class);
+    }
+
+    /**
+     * Accesor rental date
      */
     protected function rentalDate() : Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i')
+            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s')
         );
     }
 
     /**
-     * Mutator return date
+     * Accesor return date
      */
     protected function returnDate() : Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i')
+            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s'),
+            set: fn(string $value) => Carbon::parse($value)->format('Y-m-d H:i:s'),
+        );
+    }
+
+     /**
+     * Accesor Expired payment
+     */
+    protected function expiredPayment() : Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s')
         );
     }
 }
