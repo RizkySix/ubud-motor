@@ -71,5 +71,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
     //ENDPOINT BOOKING FOR CUSTOMER THAT NO NEED VERIFIED OR UNVERIFIED MIDDLEWARE
     Route::controller(BookingController::class)->group(function() {
         Route::post('/booking' , 'add_booking')->middleware(['catalog.motor.exists' , 'catalog.price.exists' , 'daily.booking'])->name('add.booking');
+        Route::get('/booking/calculate' , 'calculate_price')->middleware('daily.booking')->name('calculate.price.booking');
     });
 });

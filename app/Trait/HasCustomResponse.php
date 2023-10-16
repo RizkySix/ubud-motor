@@ -2,6 +2,7 @@
 
 namespace App\Trait;
 
+use App\Models\CatalogPrice;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Validator;
@@ -56,4 +57,26 @@ trait HasCustomResponse
 
         return false;
     }
+
+    /**
+     * Make intereval days for daily package
+     */
+    public static function daily_interval(string $rentalDate , string $returnDate) : int
+    {
+        return Carbon::parse($returnDate)->diffInDays($rentalDate);
+    }
+
+    /**
+     * Calculate total booking amount
+     * rentalDuraton -- can be 1 day or 1 month
+     */
+    public static function calculate_amount(float $price , int $rentalDuration , int $totalUnit) : string
+    {
+        $totalAmount = $price * $rentalDuration;
+        $totalAmount = $totalAmount * $totalUnit;
+
+        return CatalogPrice::amount($totalAmount);
+    }
+
+
 }

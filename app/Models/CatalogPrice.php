@@ -20,4 +20,12 @@ class CatalogPrice extends Model
     {
         return $this->belongsTo(CatalogMotor::class);
     }
+
+    /**
+     * Setter return booking amount
+     */
+    public static function amount(int $ammount) : string
+    {
+        return number_format($ammount , 2 , '.' , '');
+    }
 }
