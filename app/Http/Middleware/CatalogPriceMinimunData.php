@@ -22,12 +22,12 @@ class CatalogPriceMinimunData
             $this->getPrices = CatalogPrice::where('catalog_motor_id' , $request->route('price')->catalog_motor_id)->count();
             $this->message = 'At least 1 price lists available for each catalog';
             $this->status = 422;
-            return $this->custom_response_prices();
+            $this->custom_response_prices();
         }elseif($request->route()->getName() === 'add.booking'){
             $this->getPrices = CatalogPrice::where('id' , $request->package)->count();
             $this->message = 'Package price not found';
             $this->status = 404;
-            return $this->custom_response_booking();
+            $this->custom_response_booking();
         }
 
         return $next($request);
