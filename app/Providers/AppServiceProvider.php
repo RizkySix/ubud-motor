@@ -28,5 +28,12 @@ class AppServiceProvider extends ServiceProvider
             
             return $returnDate->diffInDays($rentalDate) >= 2;
         });
+
+        Validator::extend('minimun_two_days_rental_extension' , function($attribute, $value, $parameters, $validator) {
+            $rentalDate = $validator->getData()['return_date'];
+            $returnDate = Carbon::parse($value);
+            
+            return $returnDate->diffInDays($rentalDate) >= 2;
+        });
     }
 }
