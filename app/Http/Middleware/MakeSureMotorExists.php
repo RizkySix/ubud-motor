@@ -22,6 +22,7 @@ class MakeSureMotorExists
 
        switch ($currentRoute) {
         case 'add.booking':
+        case 'update.booking' :
             $this->getMotorName = CatalogMotor::where('motor_name' , $request->motor_name)->count();
             break;
         case 'add.prices' : 

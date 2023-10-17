@@ -9,20 +9,19 @@ use App\Models\RentalExtension;
 use App\Trait\HasCustomResponse;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Str;
 
-class AddRentalExtensionAction
+class UpdateRentalExtensionAction
 {
     use HasCustomResponse;
     /**
-     * Handle action
+     * Handle Action 
      */
-    public static function handle_action(array $data , CatalogPrice $getPrice, BookingDetail $bookingDetail) : RentalExtension|Exception
+    public static function handle_action(array $data , RentalExtension $rentalExtension, CatalogPrice $getPrice) : RentalExtension|Exception
     {
         try {
-    
-            $data['uuid'] = Str::uuid();
-
+        
+            $bookingDetail = $rentalExtension->booking_detail;
+            
              //format return date yang sesuai berdasarkan paket
             if(!isset($data['return_date'])){
                 $data['return_date'] = Carbon::parse($bookingDetail->return_date)->addDays($getPrice->duration * $data['rental_duration']);
@@ -35,20 +34,10 @@ class AddRentalExtensionAction
 
 
             //insert rental extension
-            $rentalExtension = RentalExtension::create([
-                'uuid' => $data['uuid'],
-                'booking_detail_id' => $bookingDetail->id,
-                'customer_id' => auth()->user()->id,
-                'total_unit' => 1,
-                'full_name' => $bookingDetail->booking->full_name,
-                'email' => $bookingDetail->booking->email,
-                'whatsapp_number' => $bookingDetail->booking->whatsapp_number,
+            $rentalExtension->update([
                 'package' => $data['package'],
                 'amount' => $data['amount'],
-                'expired_payment' => now()->addDays(1),
-                'extension_from' => $bookingDetail->return_date,
                 'extension_to' => $data['return_date'],
-                'is_confirmed' => false,
             ]);
 
             return $rentalExtension;
@@ -57,4 +46,5 @@ class AddRentalExtensionAction
             return $e;
         }
     }
+
 }

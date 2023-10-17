@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Booking;
+namespace App\Http\Requests\Gallery;
 
+use App\Trait\HasCustomResponse;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RentalExtensionRequest extends FormRequest
+class GalleryRequest extends FormRequest
 {
+    use HasCustomResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,11 +25,12 @@ class RentalExtensionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'booking_detail_id' => $this->route()->getName() === 'add.rental.extension' ? 'required|numeric' : 'nullable|numeric',
-            'package' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'return_date' => 'nullable|date',
-            'rental_duration' => 'nullable|numeric',
+            'gallery_image' => 'required|file|mimes:jpg,jpeg,png|max:11400'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $this->validation_error($validator);
     }
 }

@@ -25,6 +25,7 @@ class BookingRequest extends FormRequest
      */
     public function rules(): array
     {
+        $cardImage = '|file|mimes:jpg,jpeg,png|max:5400';
         return [
             'full_name' => 'required|string|min:3',
             'total_unit' => 'required|numeric|min:1',
@@ -38,7 +39,7 @@ class BookingRequest extends FormRequest
             'rental_date' => 'required|date|after_or_equal:' . now(),
             'return_date' => 'nullable|date|minimun_two_days_of_booking|after_or_equal:rental_date',
             'rental_duration' => 'nullable|numeric',
-            'card_image' => 'required|file|mimes:jpg,jpeg,png|max:5400',
+            'card_image' => $this->route()->getName() === 'add.booking' ? 'required' . $cardImage : 'nullable' . $cardImage,
             'additional_message' => 'nullable|string',
         ];
     }

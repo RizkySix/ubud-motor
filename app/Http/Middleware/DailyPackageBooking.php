@@ -18,6 +18,10 @@ class DailyPackageBooking
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if(!$request->package){
+            return $this->custom_response_validation('Package is required' , 404);
+        }
+
         $getPrice = CatalogPrice::select('package' , 'price' , 'duration' , 'duration_suffix')->find($request->package);
         $checkDaily = $this->is_daily($getPrice->duration_suffix);
         
@@ -57,11 +61,11 @@ class DailyPackageBooking
     /**
      * Custom validation response
      */
-    private function custom_response_validation(string $msg)
+    private function custom_response_validation(string $msg , int $status = 422)
     {
         return response()->json([
             'status' => false,
             'data' => $msg
-        ] , 422);
+        ] , $status);
     }
 }

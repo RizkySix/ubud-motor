@@ -78,5 +78,13 @@ trait HasCustomResponse
         return CatalogPrice::amount($totalAmount);
     }
 
+    /**
+     * Base path image
+     */
+    public static function get_base_path(string $image) : string
+    {
+        return str_replace(asset('storage/') . '/' , '' , $image);
+    }
+
 
 }

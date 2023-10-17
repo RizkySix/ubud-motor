@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RentalExtension
 {
+    private $getBookingDetail;
     /**
      * Handle an incoming request.
      *
@@ -18,39 +19,85 @@ class RentalExtension
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $currentRoute = $request->route()->getName();
+        switch ($currentRoute) {
+            case 'add.rental.extension':
+                return $this->add_rental_extenion($request , $next);
+                break;
+            case 'update.rental.extension':
+                return $this->update_rental_extension($request , $next);
+                break;
+            
+        }
+
+        return $next($request);
+    }
+
+    /**
+     * Security if current route is add.rental.extension
+     */
+    private function add_rental_extenion(Request $request ,  Closure $next)
+    {
         if(!$request->booking_detail_id){
             return $this->custom_response('Booking detail id required');
         }
 
-        $getBookingDetail = BookingDetail::select('id' ,'booking_uuid' , 'motor_name' , 'return_date')->find($request->booking_detail_id);
+        $this->getBookingDetail = BookingDetail::select('id' ,'booking_uuid' , 'motor_name' , 'return_date')->find($request->booking_detail_id);
 
         //pastikan booking detail ada
-        if(!$getBookingDetail){
+        if(!$this->getBookingDetail){
             return $this->custom_response('Booking detail not found' , 404);
         }
       
         //pastikan tidak ada rental extension yang sudah dibuat untuk booking detail ini
-        if($getBookingDetail->rental_extension()->count() !== 0){
+        if($this->getBookingDetail->rental_extension()->count() !== 0){
             return $this->custom_response('Rental extension already exists');
         }
 
         //pastikan booking detail dimiliki oleh satu booking
-        if($getBookingDetail->booking == null){
+        if($this->getBookingDetail->booking == null){
             return $this->custom_response('This booking detail does not have any booking data');
         }
        
         //pastikan new return date minimal 2 hari setelah old return date
         if($request->return_date){
-            $oldReturnDate = Carbon::parse($getBookingDetail->return_date);
+            $oldReturnDate = Carbon::parse($this->getBookingDetail->return_date);
         
             if($oldReturnDate->diffInDays($request->return_date) < 2 || $oldReturnDate > $request->return_date){
                 return $this->custom_response('New return date should 2 days ahead from old return date');
             }
         }
 
-        $request->attributes->add(['booking_detail' => $getBookingDetail]);
+        $request->attributes->add(['booking_detail' => $this->getBookingDetail]);
         return $next($request);
     }
+
+
+    /**
+     * Security if current route is update.rental.extension
+     */
+    private function update_rental_extension(Request $request , Closure $next)
+    {
+        $rentalExtension = $request->route('rentalExtension');
+
+        //pastikan booking detail dimiliki oleh satu booking
+        if($rentalExtension->booking_detail->booking == null){
+            return $this->custom_response('This booking detail does not have any booking data');
+        }
+       
+        //pastikan new return date minimal 2 hari setelah old return date
+        if($request->return_date){
+            $oldReturnDate = Carbon::parse($rentalExtension->extension_from);
+
+            if($oldReturnDate->diffInDays($request->return_date) < 2 || $oldReturnDate > $request->return_date){
+                return $this->custom_response('New return date should 2 days ahead from old return date');
+            }
+        } 
+
+        return $next($request);
+    }
+
+
 
     /**
      * Custom validation response

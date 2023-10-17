@@ -6,6 +6,7 @@ use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Catalog\CatalogPriceController;
 use App\Http\Controllers\Catalog\TempCatalogController;
+use App\Http\Controllers\Gallery\GalleryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,13 +74,24 @@ Route::middleware(['auth:sanctum'])->group(function() {
             Route::put('/booking/confirmed/{booking}' , 'confirm_booking')->middleware('confirm.booking')->name('admin.confirm.booking');
             Route::put('/booking/extension/confirmed/{rentalExtension}' , 'confirm_rental_extension')->middleware('confirm.rental.extension')->name('admin.confirm.rental.extension');
         });
+
+        //ENDPOINT GALLERY FOR ADMIN
+        Route::controller(GalleryController::class)->group(function() {
+            Route::post('/gallery' , 'add_gallery_image')->name('add.gallery.image');
+            Route::delete('/gallery/{gallery}' , 'delete_gallery_image')->name('delete.gallery.image');
+        });
+
     });
 
     //ENDPOINT BOOKING FOR CUSTOMER THAT NO NEED VERIFIED OR UNVERIFIED MIDDLEWARE
     Route::controller(BookingController::class)->group(function() {
         Route::post('/booking' , 'add_booking')->middleware(['catalog.motor.exists' , 'catalog.price.exists' , 'daily.booking' , 'compare.booking.amount'])->name('add.booking');
+        Route::put('/booking/{booking}' , 'update_booking')->middleware(['confirm.booking', 'catalog.motor.exists' , 'catalog.price.exists' , 'daily.booking' , 'compare.booking.amount'])->name('update.booking');
         Route::get('/booking/price' , 'get_related_price')->middleware('catalog.motor.exists')->name('related.price.booking');
         Route::get('/booking/calculate' , 'calculate_price')->middleware(['catalog.price.exists', 'daily.booking'])->name('calculate.price.booking');
         Route::post('/booking/extension' , 'add_rental_extension')->middleware(['daily.booking' , 'rental.extension' , 'compare.booking.amount'])->name('add.rental.extension');
+        Route::put('/booking/extension/{rentalExtension}' , 'update_rental_extension')->middleware(['confirm.rental.extension', 'expired.order', 'daily.booking' , 'rental.extension' , 'compare.booking.amount'])->name('update.rental.extension');
+        Route::delete('/booking/cancel/{booking}' , 'cancel_booking')->middleware(['cancel.order' , 'confirm.booking'])->name('cancel.booking');
+        Route::delete('/booking/extension/cancel/{rentalExtension}' , 'cancel_rental_extension')->middleware(['cancel.order' , 'confirm.rental.extension'])->name('cancel.rental.extension');
     });
 });
