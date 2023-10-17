@@ -74,7 +74,7 @@ class AddBookingAction
 
             DB::table('booking_details')->insert($payloadBookingDetail);
 
-            return $booking->load(['detail']);
+            return $booking->load(['booking_detail']);
 
         } catch (Exception $e) {
             return $e;

@@ -45,7 +45,7 @@ class AddRentalExtensionAction
                 'package' => $data['package'],
                 'amount' => $data['amount'],
                 'expired_payment' => now()->addDays(1),
-                'extension_from' => Carbon::parse($bookingDetail->return_date)->format('Y-m-d H:i:s'),
+                'extension_from' => $bookingDetail->return_date,
                 'extension_to' => $data['return_date'],
                 'is_confirmed' => false,
             ]);

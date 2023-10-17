@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
         //ENDPOINT CONFIRM BOOKING FOR ADMIN
         Route::controller(AdminBookingController::class)->group(function (){
             Route::put('/booking/confirmed/{booking}' , 'confirm_booking')->middleware('confirm.booking')->name('admin.confirm.booking');
+            Route::put('/booking/extension/confirmed/{rentalExtension}' , 'confirm_rental_extension')->middleware('confirm.rental.extension')->name('admin.confirm.rental.extension');
         });
     });
 

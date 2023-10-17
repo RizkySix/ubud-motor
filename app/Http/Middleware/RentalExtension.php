@@ -23,6 +23,11 @@ class RentalExtension
         }
 
         $getBookingDetail = BookingDetail::select('id' ,'booking_uuid' , 'motor_name' , 'return_date')->find($request->booking_detail_id);
+
+        //pastikan booking detail ada
+        if(!$getBookingDetail){
+            return $this->custom_response('Booking detail not found' , 404);
+        }
       
         //pastikan tidak ada rental extension yang sudah dibuat untuk booking detail ini
         if($getBookingDetail->rental_extension()->count() !== 0){
@@ -50,11 +55,11 @@ class RentalExtension
     /**
      * Custom validation response
      */
-    private function custom_response(string $msg)
+    private function custom_response(string $msg , int $status = 422)
     {
         return response()->json([
             'status' => false,
             'data' => $msg
-        ] , 422);
+        ] , $status);
     }
 }

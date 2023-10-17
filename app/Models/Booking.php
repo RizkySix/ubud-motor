@@ -20,7 +20,7 @@ class Booking extends Model
     /**
      * Relation hasMany booking detail
      */
-    public function detail()
+    public function booking_detail()
     {
         return $this->hasMany(BookingDetail::class);
     }

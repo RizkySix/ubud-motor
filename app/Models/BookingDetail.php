@@ -37,7 +37,8 @@ class BookingDetail extends Model
     protected function rentalDate() : Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s')
+            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s'),
+            set: fn(string $value) => Carbon::parse($value)->format('Y-m-d H:i:s')
         );
     }
 
@@ -58,7 +59,8 @@ class BookingDetail extends Model
     protected function expiredPayment() : Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s')
+            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s'),
+            set: fn(string $value) => Carbon::parse($value)->format('Y-m-d H:i:s')
         );
     }
 }

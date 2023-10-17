@@ -72,6 +72,7 @@ class Kernel extends HttpKernel
         'daily.booking' => \App\Http\Middleware\DailyPackageBooking::class,
         'compare.booking.amount' => \App\Http\Middleware\CompareBookingAmount::class,
         'confirm.booking' => \App\Http\Middleware\ConfirmBooking::class,
+        'confirm.rental.extension' => \App\Http\Middleware\ConfirmRentalExtension::class,
         'rental.extension' => \App\Http\Middleware\RentalExtension::class,
     ];
 }

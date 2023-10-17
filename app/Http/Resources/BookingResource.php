@@ -28,7 +28,7 @@ class BookingResource extends JsonResource
             'additional_message' => $this->additional_message,
             'is_confirmed' => $this->is_confirmed,
             'is_active' => $this->is_active,
-            'booking_details' => BookingDetailResource::collection($this->whenLoaded('detail'))
+            'booking_details' => BookingDetailResource::collection($this->whenLoaded('booking_detail'))
         ];
     }
 }
