@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\ExtensionReminder;
+use App\Jobs\PaymentReminder;
 use App\Jobs\UnActiveBooking;
 use App\Jobs\UnConfirmedBooking;
 use Illuminate\Console\Scheduling\Schedule;
@@ -16,7 +18,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->job(new UnActiveBooking())->dailyAt('23:00');
-        $schedule->job(new UnConfirmedBooking())->everySecond();
+        $schedule->job(new UnConfirmedBooking())->dailyAt('23:00');
+        $schedule->job(new PaymentReminder())->hourly();
+        $schedule->job(new ExtensionReminder())->dailyAt('15:00');
     }
 
     /**

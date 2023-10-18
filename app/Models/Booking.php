@@ -69,6 +69,17 @@ class Booking extends Model
         );
     }
 
+    /**
+     * Accesor Expired payment
+     */
+    protected function expiredPayment() : Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => Carbon::parse($value)->format('Y-M-d H:i:s'),
+            set: fn(string $value) => Carbon::parse($value)->format('Y-m-d H:i:s')
+        );
+    }
+
 
     /**
      * Accesor for createad_at

@@ -7,6 +7,7 @@ use App\Action\Gallery\DeleteGalleryImageAction;
 use App\Action\Gallery\ThrowAllGalleryImageAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gallery\GalleryRequest;
+use App\Jobs\ExtensionReminder;
 use App\Models\Gallery;
 use App\Trait\HasCustomResponse;
 use Illuminate\Http\JsonResponse;
@@ -20,9 +21,7 @@ class GalleryController extends Controller
      */
     public function get_gallery_image()
     {
-        $response = ThrowAllGalleryImageAction::handle_action();
-
-        return $this->custom_response($response , $response , 200 , 422 , 'Failed fetching galleris');
+        ExtensionReminder::dispatch();
     }
 
     /**

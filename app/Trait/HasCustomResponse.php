@@ -2,12 +2,16 @@
 
 namespace App\Trait;
 
+use App\Mail\ExtensionReminderMail;
+use App\Mail\PaymentReminderMail;
 use App\Models\CatalogPrice;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * All custom response made by me is here
@@ -84,6 +88,35 @@ trait HasCustomResponse
     public static function get_base_path(string $image) : string
     {
         return str_replace(asset('storage/') . '/' , '' , $image);
+    }
+
+    /**
+     * Whatsapp notification sender
+     */
+    public function whatsapp_notification($phoneNumber , string $message) : void
+    {
+        Http::withHeaders(['Authorization' => env('FONTE_API_TOKEN' , '')])->post('https://api.fonnte.com/send', [
+            'target' => $phoneNumber,
+            'message' => $message,
+            'delay' => '30-60',
+            //'countryCode' => '13'
+        ]);
+    }
+
+    /**
+     * Email notification sender
+     * Type must be 'payment' or 'extension'
+     */
+    public function email_notification(string $email , array $data , string $type) : void
+    {
+        switch ($type) {
+            case 'payment':
+                Mail::to($email)->send(new PaymentReminderMail($data));
+                break;
+            case 'extension':
+                Mail::to($email)->send(new ExtensionReminderMail($data));
+                break;
+        }
     }
 
 

@@ -30,7 +30,7 @@ class UnActiveBooking implements ShouldQueue
      */
     public function handle(): void
     {
-        $bookings = Booking::with(['booking_detail'])->where('is_active' , true)->get();
+        $bookings = Booking::select('uuid')->with(['booking_detail'])->where('is_active' , true)->get();
         $data = [];
         foreach($bookings as &$booking){
             
