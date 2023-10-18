@@ -27,6 +27,7 @@ class RentalExtenseionResource extends JsonResource
             'extension_from' => $this->extension_from,
             'extension_to' => $this->extension_to,
             'is_confirmed' => $this->is_confirmed,
+            'created_at' => $this->created_at,
         ];
     }
 }

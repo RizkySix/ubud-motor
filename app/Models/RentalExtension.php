@@ -67,4 +67,14 @@ class RentalExtension extends Model
             get: fn($value) => number_format($value , 2 , '.' , '')
         );
     }
+
+    /**
+     * Accesor for createad_at
+     */
+    protected function createdAt() : Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => Carbon::parse($value)->diffForHumans()
+        );
+    }
 }

@@ -48,6 +48,11 @@ class RentalExtension
         if(!$this->getBookingDetail){
             return $this->custom_response('Booking detail not found' , 404);
         }
+
+        //pastikan return date lewat tanggal sekarang tidak bisa melakukan perpanjangan
+        if(Carbon::parse($this->getBookingDetail->return_date) < now()){
+            $this->custom_response('Expired rental cannot be extended' , 403);
+        }
       
         //pastikan tidak ada rental extension yang sudah dibuat untuk booking detail ini
         if($this->getBookingDetail->rental_extension()->count() !== 0){
@@ -79,6 +84,11 @@ class RentalExtension
     private function update_rental_extension(Request $request , Closure $next)
     {
         $rentalExtension = $request->route('rentalExtension');
+
+        //pastikan return date lewat tanggal sekarang tidak bisa melakukan perpanjangan
+        if(Carbon::parse($rentalExtension->return_date) < now()){
+            $this->custom_response('Expired rental cannot be extended' , 403);
+        }
 
         //pastikan booking detail dimiliki oleh satu booking
         if($rentalExtension->booking_detail->booking == null){

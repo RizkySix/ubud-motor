@@ -27,7 +27,7 @@ class CatalogMotor extends Model
     }
 
     /**
-     * Getter for createad_at
+     * Accesor for createad_at
      */
     protected function createdAt() : Attribute
     {
@@ -37,7 +37,7 @@ class CatalogMotor extends Model
     }
 
     /**
-     * Getter first catalog
+     * Accesor first catalog
      */
     protected function firstCatalog() : Attribute
     {
@@ -45,7 +45,7 @@ class CatalogMotor extends Model
     }
 
     /**
-     * Getter second catalog
+     * Accesor second catalog
      */
     protected function secondCatalog() : Attribute
     {
@@ -53,7 +53,7 @@ class CatalogMotor extends Model
     }
 
     /**
-     * Getter third catalog
+     * Accesor third catalog
      */
     protected function thirdCatalog() : Attribute
     {
@@ -61,7 +61,7 @@ class CatalogMotor extends Model
     }
 
     /**
-     * Getter method catalog
+     * Accesor method catalog
      */
     protected function catalogImageParse() : Attribute
     {

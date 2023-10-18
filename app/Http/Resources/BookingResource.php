@@ -29,6 +29,8 @@ class BookingResource extends JsonResource
             'is_confirmed' => $this->is_confirmed,
             'is_active' => $this->is_active,
             'card_image' => $this->card_image,
+            'expired_payment' => $this->expired_payment,
+            'created_at' => $this->created_at,
             'booking_details' => BookingDetailResource::collection($this->whenLoaded('booking_detail'))
         ];
     }

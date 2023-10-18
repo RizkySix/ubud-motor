@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Gallery;
 
 use App\Action\Gallery\AddGalleryImageAction;
 use App\Action\Gallery\DeleteGalleryImageAction;
+use App\Action\Gallery\ThrowAllGalleryImageAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gallery\GalleryRequest;
 use App\Models\Gallery;
@@ -14,6 +15,16 @@ use Illuminate\Http\Request;
 class GalleryController extends Controller
 {
     use HasCustomResponse;
+    /**
+     * Get gallery image
+     */
+    public function get_gallery_image()
+    {
+        $response = ThrowAllGalleryImageAction::handle_action();
+
+        return $this->custom_response($response , $response , 200 , 422 , 'Failed fetching galleris');
+    }
+
     /**
      * Add gallery image
      */

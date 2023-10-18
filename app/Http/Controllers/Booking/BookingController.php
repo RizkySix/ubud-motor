@@ -8,6 +8,8 @@ use App\Action\Booking\CalculatePriceBookingAction;
 use App\Action\Booking\CancelBookingAction;
 use App\Action\Booking\CancelRentalExtensionAction;
 use App\Action\Booking\GetRelatedPriceAction;
+use App\Action\Booking\ThrowCustomerBookingAction;
+use App\Action\Booking\ThrowCustomerRentalExtension;
 use App\Action\Booking\UpdateBookingAction;
 use App\Action\Booking\UpdateRentalExtensionAction;
 use App\Http\Controllers\Controller;
@@ -118,5 +120,25 @@ class BookingController extends Controller
         $response = CancelRentalExtensionAction::handle_action($rentalExtension);
 
         return $this->custom_response($response , 'Success cancel rental extension' , 200 , 422 , 'Failed cancel rental extension');
+    }
+
+    /**
+     * Get all specifiec customer booking
+     */
+    public function get_customer_booking() : JsonResponse
+    {
+        $response = ThrowCustomerBookingAction::handle_action();
+
+        return $this->custom_response($response , BookingResource::collection($response) , 200 , 422 , 'Failed fetching');        
+    }
+
+    /**
+     * Get all specified customer rental extension
+     */
+    public function get_customer_rental_extension() : JsonResponse
+    {
+        $response = ThrowCustomerRentalExtension::handle_action();
+
+        return $this->custom_response($response , RentalExtenseionResource::collection($response) , 200 , 422 , 'Failed fetching');     
     }
 }

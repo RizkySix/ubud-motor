@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('additional_message')->nullable();
             $table->boolean('is_confirmed')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->dateTime('created_at');
         });
     }
 

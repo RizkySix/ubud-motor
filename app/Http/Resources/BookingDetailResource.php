@@ -20,6 +20,7 @@ class BookingDetailResource extends JsonResource
             'motor_name' => $this->motor_name,
             'rental_date' => $this->rental_date,
             'return_date' => $this->return_date,
+            'renewal_history' => $this->renewal_history
         ];
     }
 }

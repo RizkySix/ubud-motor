@@ -60,6 +60,7 @@ class AddBookingAction
                 'additional_message' => isset($data['additional_message']) ? $data['additional_message'] : null,
                 'is_confirmed' => false,
                 'is_active' => true,
+                'created_at' => now()
             ]);
 
             $payloadBookingDetail = [];

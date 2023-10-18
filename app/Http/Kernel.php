@@ -76,6 +76,7 @@ class Kernel extends HttpKernel
         'rental.extension' => \App\Http\Middleware\RentalExtension::class,
         'cancel.order' => \App\Http\Middleware\CancelOrder::class,
         'expired.order' => \App\Http\Middleware\ExpiredPayment::class,
+        'fetching.order' => \App\Http\Middleware\FetchCustomerOrder::class,
     ];
 }
 

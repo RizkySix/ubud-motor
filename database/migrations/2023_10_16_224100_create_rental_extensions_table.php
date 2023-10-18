@@ -27,6 +27,7 @@ return new class extends Migration
             $table->dateTime('extension_from');
             $table->dateTime('extension_to');
             $table->boolean('is_confirmed')->default(false);
+            $table->dateTime('created_at');
         });
     }
 

@@ -49,6 +49,7 @@ class AddRentalExtensionAction
                 'extension_from' => $bookingDetail->return_date,
                 'extension_to' => $data['return_date'],
                 'is_confirmed' => false,
+                'created_at' => now()
             ]);
 
             return $rentalExtension;
