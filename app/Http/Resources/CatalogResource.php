@@ -19,6 +19,7 @@ class CatalogResource extends JsonResource
             'first_catalog' => $this->first_catalog,
             'second_catalog' => $this->second_catalog,
             'third_catalog' => $this->third_catalog,
+            'charge' => $this->charge,
             'price_lists' => CatalogPriceResource::collection($this->whenLoaded('price'))
         ];
     }

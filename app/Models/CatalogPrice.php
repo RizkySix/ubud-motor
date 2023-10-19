@@ -18,7 +18,7 @@ class CatalogPrice extends Model
      */
     public function motor()
     {
-        return $this->belongsTo(CatalogMotor::class);
+        return $this->belongsTo(CatalogMotor::class , 'catalog_motor_id');
     }
 
     /**

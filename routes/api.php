@@ -73,6 +73,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::controller(AdminBookingController::class)->group(function (){
             Route::put('/booking/confirmed/{booking}' , 'confirm_booking')->middleware('confirm.booking')->name('admin.confirm.booking');
             Route::put('/booking/extension/confirmed/{rentalExtension}' , 'confirm_rental_extension')->middleware('confirm.rental.extension')->name('admin.confirm.rental.extension');
+            Route::put('/booking/done/{bookingDetail}' , 'confirm_booking_done')->name('admin.confirm.booking.done');
             Route::get('/booking/admin' , 'get_all_booking')->name('get.all.booking');
             Route::get('/booking/extension/admin' , 'get_all_rental_extension')->name('get.all.rental.extension');
         });

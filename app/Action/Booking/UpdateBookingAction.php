@@ -5,6 +5,7 @@ namespace App\Action\Booking;
 use App\Http\Requests\Booking\BookingRequest;
 use App\Models\Booking;
 use App\Models\BookingDetail;
+use App\Models\CatalogMotor;
 use App\Trait\HasCustomResponse;
 use Carbon\Carbon;
 use Exception;
@@ -55,11 +56,15 @@ class UpdateBookingAction
                 'card_image' => $cardImage,
                 'additional_message' => isset($data['additional_message']) ? $data['additional_message'] : null,
             ]);
-            
+
+            //get catalog charge
+            $getCharge = CatalogMotor::select('charge')->where('motor_name' , $data['motor_name'])->first();
+
             BookingDetail::where('booking_uuid' , $booking->uuid)->update([
                 'motor_name' => $data['motor_name'],
                 'rental_date' => $data['rental_date'],
                 'return_date' => $data['return_date'],
+                'charge' => $getCharge->charge
             ]);
 
 

@@ -19,6 +19,11 @@ return new class extends Migration
             $table->dateTime('rental_date')->default(now());
             $table->dateTime('return_date');
             $table->json('renewal_history')->nullable();
+            $table->decimal('charge' , 10 , 2 ,true);
+            $table->decimal('total_charge' , 10 , 2 ,true)->default(0.00);
+            $table->tinyInteger('passed_days' , false, true)->default(0);
+            $table->dateTime('today_charge')->nullable();
+            $table->boolean('is_done')->default(false);
         });
     }
 

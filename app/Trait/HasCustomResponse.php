@@ -104,7 +104,7 @@ trait HasCustomResponse
     }
 
     /**
-     * Email notification sender
+     * Email notification sender,
      * Type must be 'payment' or 'extension'
      */
     public function email_notification(string $email , array $data , string $type) : void

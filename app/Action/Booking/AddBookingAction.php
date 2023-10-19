@@ -4,6 +4,7 @@ namespace App\Action\Booking;
 
 use App\Http\Requests\Booking\BookingRequest;
 use App\Models\Booking;
+use App\Models\CatalogMotor;
 use App\Models\CatalogPrice;
 use App\Trait\HasCustomResponse;
 use Carbon\Carbon;
@@ -23,7 +24,7 @@ class AddBookingAction
             
             $data = $request->validated();
             $getPrice = $request->get('catalog_price');
-
+           
             $data['uuid'] = Str::uuid();
            
             //format return date yang sesuai berdasarkan paket
@@ -64,12 +65,18 @@ class AddBookingAction
             ]);
 
             $payloadBookingDetail = [];
+
+            //get catalog charge
+            $getCharge = CatalogMotor::select('charge')->where('motor_name' , $data['motor_name'])->first();
+
             for($i = 0; $i < $data['total_unit']; $i++){
                 $payloadBookingDetail[] = [
                     'booking_uuid' => $data['uuid'],
                     'motor_name' => $data['motor_name'],
                     'rental_date' => $data['rental_date'],
                     'return_date' => $data['return_date'],
+                    'charge' => $getCharge->charge,
+                    'today_charge' => Carbon::parse($data['return_date'])->addHours(3)
                 ];
             }
 

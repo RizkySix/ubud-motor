@@ -22,8 +22,14 @@ class DailyPackageBooking
             return $this->custom_response_validation('Package is required' , 404);
         }
 
-        $getPrice = CatalogPrice::select('package' , 'price' , 'duration' , 'duration_suffix')->find($request->package);
+        $getPrice = CatalogPrice::find($request->package);
+      
         $checkDaily = $this->is_daily($getPrice->duration_suffix);
+
+        //cek apakah package yang dipilih sesuai
+        if($request->motor_name !== null && $getPrice->motor->motor_name !== $request->motor_name){
+            return $this->custom_response_validation('Motor name not match');
+        }
         
         //jika return_date ada dalam request
         if($request->return_date !== null){

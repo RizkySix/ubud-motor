@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\ChargeMotor;
 use App\Jobs\ExtensionReminder;
 use App\Jobs\PaymentReminder;
 use App\Jobs\UnActiveBooking;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new UnConfirmedBooking())->dailyAt('23:00');
         $schedule->job(new PaymentReminder())->hourly();
         $schedule->job(new ExtensionReminder())->dailyAt('15:00');
+        $schedule->job(new ChargeMotor())->everyMinute();
     }
 
     /**

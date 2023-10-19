@@ -58,6 +58,7 @@ class StoreCatalogAction
             
                 $getTempCatalog->delete();
                 $payloadCatalog['motor_name'] = $data['motor_name'];
+                $payloadCatalog['charge'] = $data['charge'];
             
                 $newCatalog = CatalogMotor::create($payloadCatalog);
             

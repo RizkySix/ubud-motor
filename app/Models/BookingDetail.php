@@ -31,6 +31,7 @@ class BookingDetail extends Model
         return $this->hasOne(RentalExtension::class);
     }
 
+
     /**
      * Accesor rental date
      */

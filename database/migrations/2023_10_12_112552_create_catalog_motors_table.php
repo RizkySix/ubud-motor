@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('catalog_motors', function (Blueprint $table) {
             $table->id();
             $table->string('motor_name')->unique();
+            $table->decimal('charge' , 10 , 2 , true);
             $table->string('first_catalog')->nullable();
             $table->string('second_catalog')->nullable();
             $table->string('third_catalog')->nullable();

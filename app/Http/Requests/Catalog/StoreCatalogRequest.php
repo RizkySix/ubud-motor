@@ -27,6 +27,7 @@ class StoreCatalogRequest extends FormRequest
     {
         return [
             'motor_name' => 'required|string|min:3|unique:catalog_motors',
+            'charge' => 'required|numeric',
             'path_catalog' => 'required|array',
             'path_catalog.*' => 'required|string',
             'price_lists' => 'required|array',

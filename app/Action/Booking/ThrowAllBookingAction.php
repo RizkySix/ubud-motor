@@ -3,6 +3,7 @@
 namespace App\Action\Booking;
 
 use App\Models\Booking;
+use App\Models\BookingDetail;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -38,6 +39,10 @@ class ThrowAllBookingAction
                                     ->where('is_active' , false)
                                     ->orWhere('expired_payment' , '<' , now())
                                     ->latest()->get();
+                case 'charge':
+                    $bookings = BookingDetail::where('is_done' , false)
+                                    ->where('return_date' , '<' , now()->addHours(3))
+                                    ->get();
                     break;
             }
             
