@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Authentication;
 use App\Action\Authentication\CustomerLoginAction;
 use App\Action\Authentication\CustomerLogoutAction;
 use App\Action\Authentication\CustomerRegisterAction;
+use App\Action\Authentication\LoginAction;
 use App\Action\Authentication\OtpSendAction;
 use App\Action\Authentication\RegisterAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Authentication\AdminLoginRequest;
 use App\Http\Requests\Authentication\CustomerLoginRequest;
 use App\Http\Requests\Authentication\CustomerRegisterRequest;
 use App\Http\Requests\Authentication\OtpRequest;
@@ -73,12 +75,22 @@ class AuthenticationController extends Controller
         $response = OtpSendAction::handle_action($validatedData['otp_code']);
 
         return $this->custom_response($response , UserResource::make($response) , 200, 422 , 'Otp code not valid');
-
-        
+ 
     }
 
 
 
+    /**
+     * Login admin
+     */
+    public function login(AdminLoginRequest $request) : JsonResponse
+    {
+        $validatedData = $request->validated();
+
+        $response = LoginAction::handle_action($validatedData);
+
+        return $this->custom_response($response , UserResource::make($response) , 200 , 404, 'Invalid Admin credentials');
+    }
 
 
 

@@ -21,13 +21,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+/* Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
-});
+}); */
 
 //GUEST ENDPOINT
 Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/admin/register' , 'register')->name('register.admin');
+    Route::post('/admin/login' , 'login')->name('login.admin');
     Route::post('/customer/register' , 'register_customer')->name('register.customer');
     Route::post('/customer/login' , 'login_customer')->name('login.customer');
 });

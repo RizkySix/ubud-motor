@@ -17,24 +17,42 @@ class ThrowAllBookingAction
         try {
             
             $bookings = false;
-  
+            $query = Booking::with(['booking_detail'])
+                            ->select([
+                                'uuid',
+                                'total_unit',
+                                'full_name',
+                                'email',
+                                'whatsapp_number',
+                                'motor_name',
+                                'package',
+                                'amount',
+                                'delivery_address',
+                                'pickup_address',
+                                'card_image',
+                                'expired_payment',
+                                'additional_message',
+                                'is_confirmed',
+                                'is_active',
+                                'created_at',
+                            ]);
             //bookng type
             switch ($type) {
                 case 'confirmed':
-                    $bookings = Booking::with(['booking_detail'])
+                    $bookings =    $query
                                     ->where('is_confirmed' , true)
                                     ->where('is_active' , true)
                                     ->latest()->get();
                     break;
                 case 'unconfirmed':
-                    $bookings = Booking::with(['booking_detail'])
+                    $bookings =    $query
                                     ->where('is_confirmed' , false)
                                     ->where('is_active' , true)
                                     ->where('expired_payment' , '>' , now())
                                     ->latest()->get();
                     break;
                 case 'expired':
-                    $bookings = Booking::with(['booking_detail'])
+                    $bookings =    $query
                                     ->where('is_confirmed' , false)
                                     ->where('is_active' , false)
                                     ->orWhere('expired_payment' , '<' , now())
