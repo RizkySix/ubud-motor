@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Catalog;
+namespace App\Http\Requests\Gallery;
 
 use App\Trait\HasCustomResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
-class UpdateCatalogRequest extends FormRequest
+class DeleteTempGalleryRequest extends FormRequest
 {
     use HasCustomResponse;
     /**
@@ -27,11 +25,7 @@ class UpdateCatalogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'motor_name' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_motors')->ignore($this->route('catalog'))],
-            'first_catalog' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:11500',
-            'second_catalog' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:11500',
-            'third_catalog' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:11500',
-            'charge' => 'required|numeric',
+            'temp_path' => 'required|string'
         ];
     }
 

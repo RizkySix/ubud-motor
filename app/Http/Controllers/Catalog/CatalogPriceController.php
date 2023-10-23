@@ -24,7 +24,7 @@ class CatalogPriceController extends Controller
     {
         $validatedData = $request->validated();
         
-        $response = AddMoreCatalogPriceAction::handle_action($validatedData);
+        $response = AddMoreCatalogPriceAction::handle_action($validatedData , $request->get('catalog'));
 
         return $this->custom_response($response , 'New price lists added' , 201 , 422 , 'Failed adding new prices');
     }

@@ -81,6 +81,8 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
         //ENDPOINT GALLERY FOR ADMIN
         Route::controller(GalleryController::class)->group(function() {
+            Route::post('/temp/gallery' , 'add_temp_gallery_image')->name('add.temp.gallery.image');
+            Route::delete('/temp/gallery' , 'delete_temp_gallery_image')->name('delete.temp.gallery.image');
             Route::post('/gallery' , 'add_gallery_image')->name('add.gallery.image');
             Route::get('/gallery' , 'get_gallery_image')->name('get.gallery.image');
             Route::delete('/gallery/{gallery}' , 'delete_gallery_image')->name('delete.gallery.image');

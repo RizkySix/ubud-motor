@@ -16,7 +16,7 @@ class ThrowAllCatalogAction
         try {
             
             //get all catalog
-            $getCatalogs = CatalogMotor::with(['price'])->select('id', 'motor_name' , 'first_catalog' , 'second_catalog' , 'third_catalog' , 'created_at')->latest()->get();
+            $getCatalogs = CatalogMotor::with(['price'])->select('id', 'motor_name' , 'first_catalog' , 'second_catalog' , 'third_catalog' , 'created_at' , 'charge')->latest()->get();
 
             return $getCatalogs;
         } catch (Exception $e) {

@@ -27,13 +27,13 @@ class PriceListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'catalog_motor_id' => 'required|numeric',
+            'motor_name' => 'required|string',
             'price_lists' => 'required|array',
             'price_lists.*' => 'required|array',
             'price_lists.*.price' => 'required|numeric',
             'price_lists.*.duration' => 'required|numeric|min:1',
             'price_lists.*.duration_suffix' => 'required|string|min:3',
-            'price_lists.*.package' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_prices' , 'package')->where('catalog_motor_id' , $this->input('catalog_motor_id'))]
+            'price_lists.*.package' => ['required' , 'string' , 'distinct' , 'min:3' , Rule::unique('catalog_prices' , 'package')->where('catalog_motor_id' , $this->get('catalog')->id)]
         ];
     }
 

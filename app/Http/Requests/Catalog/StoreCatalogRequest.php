@@ -35,7 +35,7 @@ class StoreCatalogRequest extends FormRequest
             'price_lists.*.price' => 'required|numeric',
             'price_lists.*.duration' => 'required|numeric|min:1',
             'price_lists.*.duration_suffix' => 'required|string|min:3',
-            'price_lists.*.package' => 'required|string|min:3',
+            'price_lists.*.package' => 'required|string|min:3|distinct',
         ];
     }
 

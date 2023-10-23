@@ -18,8 +18,9 @@ class CatalogPriceResource extends JsonResource
             'id' => $this->id,
             'catalog_motor_id' => $this->catalog_motor_id,
             'package' => $this->package,
-            'duration' => $this->duration . ' ' . $this->duration_suffix,
-            'price' => $this->price
+            'duration' => $this->duration,
+            'price' => $this->price,
+            'duration_suffix' => $this->duration_suffix
         ];
     }
 }
