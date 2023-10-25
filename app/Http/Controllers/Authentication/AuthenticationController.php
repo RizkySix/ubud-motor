@@ -17,6 +17,8 @@ use App\Http\Requests\Authentication\RegisterRequest;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\UserResource;
 use App\Mail\OtpMailer;
+use App\Models\Customer;
+use App\Models\User;
 use App\Trait\HasCustomResponse;
 use App\Trait\HasOtp;
 use Exception;
@@ -127,6 +129,24 @@ class AuthenticationController extends Controller
         $response = CustomerLogoutAction::handle_action();
 
         return $this->custom_response($response , 'Customer logout success' , 200 , 422 ,'Customer failed logout');
+    }
+
+
+    /**
+     * Handle get data user
+     */
+    public function get_data_user() : JsonResponse
+    {
+        $data = null;
+        $user = auth()->user();
+
+        if($user instanceof Customer){
+            $data = CustomerResource::make($user);
+        }elseif($user instanceof User){
+            $data = UserResource::make($user);
+        }
+
+        return $this->custom_response(true , $data , 200 , 422 ,'Invalid user type');
     }
 
 }

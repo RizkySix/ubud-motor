@@ -33,8 +33,18 @@ Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/customer/login' , 'login_customer')->name('login.customer');
 });
 
+//GUEST GET CATALOG ENDPOINT
+Route::controller(CatalogController::class)->group(function() {
+    Route::get('/catalog' , 'index')->name('get.all.catalog');
+});
+
 //AUTHENTICATED ENDPOINT
 Route::middleware(['auth:sanctum'])->group(function() {
+
+    //ENDPOINT GET DETAIL AUTHANTICATED USER
+    Route::controller(AuthenticationController::class)->group(function () {
+        Route::get('/user/data' , 'get_data_user')->name('get.data.user');
+    });
 
      //ENDPOINT FOR UNVERIFIED EMAIL
     Route::middleware(['un.verified.email'])->group(function() {
@@ -61,7 +71,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
 
         //ENDPOINT CATALOG
-        Route::apiResource('/catalog' , CatalogController::class);
+        Route::apiResource('/catalog' , CatalogController::class)->except(['index']);
         Route::delete('/catalog/{catalog}/image' , [CatalogController::class , 'delete_catalog_image'])->middleware('catalog.image')->name('single.delete.catalog.image');
         
         Route::controller(CatalogPriceController::class)->group(function() {
