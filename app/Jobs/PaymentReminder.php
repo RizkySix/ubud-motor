@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Booking;
 use App\Trait\HasCustomResponse;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -58,14 +59,14 @@ class PaymentReminder implements ShouldQueue
     private function set_message(Booking $booking) : void
     {
         $this->message = "Halo *" . $booking->full_name . "*,\n\n" .
-                "Terimakasih telah membuat pesanan di *Motor Ubud*. Segera ke toko untuk melakukan pembayaran dan mengambil kendaraan anda.\n\n" .
+                "Thank you for placing your order with *Lavista Rental Bike*. Please visit our store to complete the payment , pick up your bike promptly and start your advanture with us ❤️.\n\n" .
                 "Motor Type: *" . $booking->motor_name . ' (' . $booking->total_unit . ')' . "*\n" .
                 "Package: *" . $booking->package . "*\n" .
-                "Amount: *Rp. " . $booking->amount . "*\n" .
-                "Expired payment on: *" . $booking->expired_payment . "*\n" .
-                "Terima kasih telah memilih *Motor Ubud*!\n\n" .
-                "Salam,\n" .
-                "Tim Layanan Pelanggan Motor Ubud";
+                "Amount: *Rp. " . number_format($booking->amount , 0 , '.' , '.') . "*\n" .
+                "Payment due by: *" . Carbon::parse($booking->expired_payment)->format('Y M d H:i') . "*\n" .
+                "We appreciate your choice of *Lavista Rental Bike*!\n\n" .
+                "Best regards,\n" .
+                "Lavista Rental Bike Service Team";
 
         
     }
@@ -77,7 +78,13 @@ class PaymentReminder implements ShouldQueue
     private function email_payload(Booking $booking) : void
     {
         $this->data = [
-            'message' => $this->message
+            'full_name' => $booking->full_name,
+            'motor_name' => $booking->motor_name,
+            'package' => $booking->package,
+            'total_unit' => $booking->total_unit,
+            'amount' => number_format($booking->amount , 0 , '.' , '.'),
+            'expired_payment' => Carbon::parse($booking->expired_payment)->format('Y M d H:i')
+            
         ];
     }
 }

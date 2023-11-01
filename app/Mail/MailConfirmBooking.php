@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,19 +10,19 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ExtensionReminderMail extends Mailable implements ShouldQueue
+class MailConfirmBooking extends Mailable
 {
     use Queueable, SerializesModels;
-    private $data;
+    private $data = [];
     public $tries = 3;
     public $backoff = 1;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(array $data)
+    public function __construct(Booking $booking)
     {
-        $this->data = $data;
+        $this->data = $booking;
     }
 
     /**
@@ -30,7 +31,7 @@ class ExtensionReminderMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rental Reminder',
+            subject: 'Booking Confirmation',
         );
     }
 
@@ -40,8 +41,8 @@ class ExtensionReminderMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.extension-reminder-mail',
-            with: [
+            markdown: 'mail.mail-confirm-booking',
+            with:[
                 'data' => $this->data
             ]
         );

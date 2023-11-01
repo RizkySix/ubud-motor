@@ -3,6 +3,7 @@
 namespace App\Action\Booking;
 
 use App\Models\RentalExtension;
+use Carbon\Carbon;
 use Exception;
 
 class AdminConfrimRentalExtensionAction
@@ -25,7 +26,7 @@ class AdminConfrimRentalExtensionAction
             ];
 
             $renewalHistory = json_encode($renewalHistory);
-            $rentalExtension->booking_detail()->update(['renewal_history' => $renewalHistory]);
+            $rentalExtension->booking_detail()->update(['renewal_history' => $renewalHistory , 'return_date' => Carbon::parse($rentalExtension->extension_to)->format('Y-m-d H:i:s')]);
            
            return true;
            

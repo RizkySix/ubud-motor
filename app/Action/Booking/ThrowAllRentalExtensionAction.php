@@ -23,6 +23,12 @@ class ThrowAllRentalExtensionAction
                                         ->where('is_confirmed' , true)
                                         ->latest()->get();
                     break;
+                case 'today':
+                    $rentalExtensions = RentalExtension::with(['booking_detail'])
+                                        ->where('is_confirmed' , false)
+                                        ->wheredate('created_at' , today())
+                                        ->latest()->get();
+                    break;
                 case 'unconfirmed':
                     $rentalExtensions = RentalExtension::with(['booking_detail'])
                                         ->where('is_confirmed' , false)

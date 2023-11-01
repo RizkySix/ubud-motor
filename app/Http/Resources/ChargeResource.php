@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookingDetailResource extends JsonResource
+class ChargeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,6 +17,10 @@ class BookingDetailResource extends JsonResource
         return [
             'id' => $this->id,
             'booking_uuid' => $this->booking_uuid,
+            'full_name' => $this->booking->full_name,
+            'email' => $this->booking->email,
+            'whatsapp_number' => $this->booking->whatsapp_number,
+            'card_image' => $this->booking->card_image,
             'motor_name' => $this->motor_name,
             'rental_date' => $this->rental_date,
             'return_date' => $this->return_date,

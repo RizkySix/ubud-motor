@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Authentication;
+namespace App\Http\Requests\Profile;
 
 use App\Trait\HasCustomResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use PhpParser\Node\Expr\FuncCall;
 
-class RegisterRequest extends FormRequest
+class AdminProfileRequest extends FormRequest
 {
     use HasCustomResponse;
     /**
@@ -26,10 +26,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'required|string|min:5',
-            'email' => 'required|email:dns|unique:users',
-            'password' => 'required|confirmed|string|min:8',
-            'phone_number' => 'required|numeric|digits_between:11,14'
+            'full_name' => 'nullable|string|min:5',
+            'password' => 'nullable|confirmed|string|min:8',
+            'phone_number' => 'nullable|string|min:11|max:14'
         ];
     }
 
@@ -39,10 +38,6 @@ class RegisterRequest extends FormRequest
             'full_name.required' => 'Kolom nama lengkap wajib diisi.',
             'full_name.string' => 'Kolom nama lengkap harus berupa teks.',
             'full_name.min' => 'Kolom nama lengkap minimal harus terdiri dari :min karakter.',
-            'email.required' => 'Kolom email wajib diisi.',
-            'email.email' => 'Kolom email harus berisi alamat email yang valid.',
-            'email.unique' => 'Alamat email ini sudah terdaftar.',
-            'password.required' => 'Kolom kata sandi wajib diisi.',
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'password.string' => 'Kolom kata sandi harus berupa number.',
             'password.min' => 'Kata sandi minimal harus terdiri dari :min karakter.',
@@ -51,7 +46,6 @@ class RegisterRequest extends FormRequest
             'phone_number.digits_between' => 'Nomor telepon harus terdiri dari :min sampai :max karakter.',
         ];
     }
-
 
     protected function failedValidation(Validator $validator)
     {

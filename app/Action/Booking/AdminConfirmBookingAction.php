@@ -2,8 +2,10 @@
 
 namespace App\Action\Booking;
 
+use App\Mail\MailConfirmBooking;
 use App\Models\Booking;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class AdminConfirmBookingAction
 {
@@ -14,7 +16,8 @@ class AdminConfirmBookingAction
     {
         try {
             $booking->update(['is_confirmed' => true]);
-       
+            
+            Mail::to($booking->email)->send(new MailConfirmBooking($booking));
             return true;
         } catch (Exception $e) {
            return $e;

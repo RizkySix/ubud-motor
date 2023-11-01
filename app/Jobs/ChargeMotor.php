@@ -33,7 +33,7 @@ class ChargeMotor implements ShouldQueue
                                     ->select('id' , 'charge' , 'booking_uuid' , 'return_date')
                                     ->where('is_done' , false)
                                     ->where('today_charge' , '<' , now())
-                                    ->where('return_date' , '<' , now()->addHours(3))
+                                    ->where('return_date' , '<' , now()->addHours(5))
                                     ->get();
 
     

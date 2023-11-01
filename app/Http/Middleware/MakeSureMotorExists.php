@@ -26,12 +26,10 @@ class MakeSureMotorExists
             $this->getMotorName = CatalogMotor::where('motor_name' , $request->motor_name)->count();
             break;
         case 'add.prices' : 
+        case 'related.price.booking' :
             $catalog = CatalogMotor::select('id')->where('motor_name' , $request->motor_name)->first();
             $this->getMotorName = $catalog ? 1 : 0;
             $request->attributes->add(['catalog' => $catalog]);
-            break;
-        case 'related.price.booking' :
-            $this->getMotorName = CatalogMotor::where('id' , $request->motor)->count();
             break;
        }
        

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Catalog;
+namespace App\Http\Requests\Authentication;
 
 use App\Trait\HasCustomResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RelatedPriceRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     use HasCustomResponse;
     /**
@@ -25,12 +25,12 @@ class RelatedPriceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'motor_name' => 'required|string',
+            'email' => 'required|email:dns'
         ];
     }
 
     protected function failedValidation(Validator $validator)
     {
-        return $this->validation_error($validator);
+        $this->validation_error($validator);
     }
 }

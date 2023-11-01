@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\FetchBookingRequest;
 use App\Http\Resources\BookingDetailResource;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\ChargeResource;
 use App\Http\Resources\RentalExtenseionResource;
 use App\Models\Booking;
 use App\Models\BookingDetail;
@@ -63,7 +64,7 @@ class AdminBookingController extends Controller
         $response = ThrowAllBookingAction::handle_action($validatedData['type']);
        
         if(isset($response[0]->today_charge)){
-           $response = BookingDetailResource::collection($response);
+           $response = ChargeResource::collection($response);
         }else{
             $response = !$response ? $response : BookingResource::collection($response); 
         }

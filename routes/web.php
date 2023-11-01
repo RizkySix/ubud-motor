@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,9 @@ Route::get('/', function () {
 
 Route::get('/test' , function() {
     echo "Just for test";
+    echo now();
+    echo "<br>";
+    echo Carbon::parse('2023-11-03 18:45:00')->diffInDays(now());
+    //return view('mail.reset-password-mail');
 });
 require __DIR__.'/auth.php';

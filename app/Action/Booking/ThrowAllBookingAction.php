@@ -36,12 +36,21 @@ class ThrowAllBookingAction
                                 'is_active',
                                 'created_at',
                             ]);
+
             //bookng type
             switch ($type) {
                 case 'confirmed':
                     $bookings =    $query
                                     ->where('is_confirmed' , true)
                                     ->where('is_active' , true)
+                                    ->latest()->get();
+                    break;
+                case 'today':
+                    $bookings =    $query
+                                    ->where('is_confirmed' , false)
+                                    ->where('is_active' , true)
+                                    ->where('expired_payment' , '>' , now())
+                                    ->whereDate('created_at' , today())
                                     ->latest()->get();
                     break;
                 case 'unconfirmed':
@@ -56,9 +65,11 @@ class ThrowAllBookingAction
                                     ->where('is_confirmed' , false)
                                     ->where('is_active' , false)
                                     ->orWhere('expired_payment' , '<' , now())
+                                    ->where('is_active' , false)
                                     ->latest()->get();
+                    break;
                 case 'charge':
-                    $bookings = BookingDetail::where('is_done' , false)
+                    $bookings = BookingDetail::with(['booking'])->where('is_done' , false)
                                     ->where('return_date' , '<' , now()->addHours(3))
                                     ->get();
                     break;

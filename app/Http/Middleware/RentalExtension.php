@@ -56,12 +56,16 @@ class RentalExtension
       
         //pastikan tidak ada rental extension yang sudah dibuat untuk booking detail ini
         if($this->getBookingDetail->rental_extension()->count() !== 0){
-            return $this->custom_response('Rental extension already exists');
+            return $this->custom_response('Already exists, undo the previous one to create a new one');
         }
 
         //pastikan booking detail dimiliki oleh satu booking
         if($this->getBookingDetail->booking == null){
             return $this->custom_response('This booking detail does not have any booking data');
+        }
+
+        if($this->getBookingDetail->booking->is_confirmed == false){
+            return $this->custom_response('Unpaid booking cant make renewal' , 403);
         }
        
         //pastikan new return date minimal 2 hari setelah old return date

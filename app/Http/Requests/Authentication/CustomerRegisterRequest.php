@@ -32,6 +32,24 @@ class CustomerRegisterRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'username.required' => 'The username field is required.',
+            'username.string' => 'The username must be a string.',
+            'username.min' => 'The username must be at least :min characters.',
+            'username.unique' => 'The username has already been taken.',
+            'password.required' => 'The password field is required.',
+            'password.string' => 'The password must be a string.',
+            'password.min' => 'The password must be at least :min characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'full_name.required' => 'The full name field is required.',
+            'full_name.string' => 'The full name must be a string.',
+            'full_name.min' => 'The full name must be at least :min characters.',
+        ];
+    }
+
+
     protected function failedValidation(Validator $validator)
     {
         $this->validation_error($validator);

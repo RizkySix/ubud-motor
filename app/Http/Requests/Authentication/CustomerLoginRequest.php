@@ -30,6 +30,14 @@ class CustomerLoginRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'username.required' => 'The username field is required.',
+            'password.required' => 'The password field is required.',
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $this->validation_error($validator);

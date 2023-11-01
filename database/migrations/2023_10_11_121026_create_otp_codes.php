@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->integer('otp_code' , false , true);
-            $table->dateTime('expired_time')->default(now()->addHours(2));
+            $table->dateTime('expired_time')->default(now()->addHour(1));
         });
     }
 

@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Authentication;
 
+use App\Action\Authentication\ConfirmResetPasswordAction;
 use App\Action\Authentication\CustomerLoginAction;
 use App\Action\Authentication\CustomerLogoutAction;
 use App\Action\Authentication\CustomerRegisterAction;
 use App\Action\Authentication\LoginAction;
+use App\Action\Authentication\LogoutAction;
 use App\Action\Authentication\OtpSendAction;
 use App\Action\Authentication\RegisterAction;
+use App\Action\Authentication\ResetPasswordAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\AdminLoginRequest;
 use App\Http\Requests\Authentication\CustomerLoginRequest;
 use App\Http\Requests\Authentication\CustomerRegisterRequest;
 use App\Http\Requests\Authentication\OtpRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
+use App\Http\Requests\Authentication\ResetPasswordRequest;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\UserResource;
 use App\Mail\OtpMailer;
@@ -80,6 +84,27 @@ class AuthenticationController extends Controller
  
     }
 
+    /**
+     * Handle forget password
+     */
+    public function reset_password(ResetPasswordRequest $request) : JsonResponse
+    {
+        $validatedData = $request->validated();
+
+        $response = ResetPasswordAction::handle_action($validatedData['email']);
+
+        return $this->custom_response($response , 'Reset password mail sent' , 200 , 422 , 'Fail send reset password mail');
+    }
+
+    /**
+     * Handle send verification reset password
+     */
+    public function verify_reset_password(string $email) : JsonResponse
+    {
+        $response = ConfirmResetPasswordAction::handle_action($email);
+
+        return $this->custom_response($response , 'Password reset success' , 200 , 422 , 'Fail reset password');
+    }
 
 
     /**
@@ -92,6 +117,17 @@ class AuthenticationController extends Controller
         $response = LoginAction::handle_action($validatedData);
 
         return $this->custom_response($response , UserResource::make($response) , 200 , 404, 'Invalid Admin credentials');
+    }
+
+
+    /**
+     * Logout Admin
+     */
+    public function logout() : JsonResponse
+    {
+        $response = LogoutAction::handle_action();
+
+        return $this->custom_response($response , 'Admin logout success' , 200 , 422 ,'Admin failed logout');
     }
 
 

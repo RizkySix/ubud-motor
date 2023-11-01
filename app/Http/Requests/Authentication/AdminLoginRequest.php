@@ -30,6 +30,16 @@ class AdminLoginRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.dns' => 'The email must have a valid DNS record.',
+            'password.required' => 'The password field is required.',
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $this->validation_error($validator);

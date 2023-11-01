@@ -7,6 +7,7 @@ use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Catalog\CatalogPriceController;
 use App\Http\Controllers\Catalog\TempCatalogController;
 use App\Http\Controllers\Gallery\GalleryController;
+use App\Http\Controllers\Profile\AdminProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/admin/register' , 'register')->name('register.admin');
     Route::post('/admin/login' , 'login')->name('login.admin');
+    Route::post('/admin/reset/password' , 'reset_password')->middleware('throttle:anti.spam.mail')->name('reset.password.admin');
+    Route::post('/admin/reset/password/{email}' , 'verify_reset_password')->name('confirm.reset.password.admin');
     Route::post('/customer/register' , 'register_customer')->name('register.customer');
     Route::post('/customer/login' , 'login_customer')->name('login.customer');
 });
@@ -38,12 +41,19 @@ Route::controller(CatalogController::class)->group(function() {
     Route::get('/catalog' , 'index')->name('get.all.catalog');
 });
 
+ //ENDPOINT GUEST GET GALLERY
+ Route::controller(GalleryController::class)->group(function() {
+    Route::get('/gallery' , 'get_gallery_image')->name('get.gallery.image');
+});
+
 //AUTHENTICATED ENDPOINT
 Route::middleware(['auth:sanctum'])->group(function() {
 
     //ENDPOINT GET DETAIL AUTHANTICATED USER
     Route::controller(AuthenticationController::class)->group(function () {
         Route::get('/user/data' , 'get_data_user')->name('get.data.user');
+
+        Route::post('/admin/logout' , 'logout')->name('logout.admin');
     });
 
      //ENDPOINT FOR UNVERIFIED EMAIL
@@ -62,6 +72,12 @@ Route::middleware(['auth:sanctum'])->group(function() {
     //ENDPOINT FOR VERIFIED EMAIL
     Route::middleware(['is.verified.email'])->group(function() {
         
+        //ENDPOINT ADMIN UPDATE PROFILE
+        Route::controller(AdminProfileController::class)->group(function() {
+            Route::put('/admin/profile' , 'update_profile')->name('admin.update.profile');
+        });
+
+
         //ENDPOINT TEMPORARY CATALOG CONTROLLER
         Route::controller(TempCatalogController::class)->group(function() {
             Route::post('/temp/catalog' , 'upload_temporary_catalog')->name('upload.temp.catalog');
@@ -94,7 +110,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
             Route::post('/temp/gallery' , 'add_temp_gallery_image')->name('add.temp.gallery.image');
             Route::delete('/temp/gallery' , 'delete_temp_gallery_image')->name('delete.temp.gallery.image');
             Route::post('/gallery' , 'add_gallery_image')->name('add.gallery.image');
-            Route::get('/gallery' , 'get_gallery_image')->name('get.gallery.image');
             Route::delete('/gallery/{gallery}' , 'delete_gallery_image')->name('delete.gallery.image');
         });
 

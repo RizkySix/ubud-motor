@@ -56,7 +56,7 @@ class AddBookingAction
                 'amount' => $data['amount'],
                 'delivery_address' => $data['delivery_address'],
                 'pickup_address' => $data['pickup_address'],
-                'expired_payment' => now()->addDays(1),
+                'expired_payment' => Carbon::parse($data['rental_date'])->addDays(1),
                 'card_image' => $cardImage,
                 'additional_message' => isset($data['additional_message']) ? $data['additional_message'] : null,
                 'is_confirmed' => false,
@@ -76,7 +76,7 @@ class AddBookingAction
                     'rental_date' => $data['rental_date'],
                     'return_date' => $data['return_date'],
                     'charge' => $getCharge->charge,
-                    'today_charge' => Carbon::parse($data['return_date'])->addHours(3)
+                    'today_charge' => Carbon::parse($data['return_date'])->addHours(5)
                 ];
             }
 

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ExtensionReminderMail extends Mailable implements ShouldQueue
+class ResetPasswordMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     private $data;
@@ -30,7 +30,7 @@ class ExtensionReminderMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rental Reminder',
+            subject: 'Reset Password Confirmation',
         );
     }
 
@@ -40,7 +40,7 @@ class ExtensionReminderMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.extension-reminder-mail',
+            markdown: 'mail.reset-password-mail',
             with: [
                 'data' => $this->data
             ]

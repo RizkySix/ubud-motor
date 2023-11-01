@@ -60,15 +60,15 @@ class ExtensionReminder implements ShouldQueue
      */
     private function set_message(Booking $booking) : void
     {
-        $this->message = "Halo *" . $booking->full_name . "*,\n\n" .
-                "Terimakasih telah membuat pesanan di *Motor Ubud*. Waktu rental anda akan segera berakhir, ayo buruan lakukan perpanjangan dan bayar di toko.\n\n" .
+        $this->message = "Hello *" . $booking->full_name . "*,\n\n" .
+                "Thank you for making an order at *Lavista Rental Bike*. Your rental time will end soon, come on, hurry up and extend it and pay at our store.\n\n" .
+                "You can make renewal on website http://localhost:5173/ \n\n" .
                 "Motor Type: *" . $booking->motor_name . ' (' . $booking->total_unit . ')' . "*\n" .
                 "Package: *" . $booking->package . "*\n" .
-                "Expired rental on: *" . $this->returnDate . "*\n" .
-                "Terima kasih telah memilih *Motor Ubud*!\n\n" .
-                "Salam,\n" .
-                "Tim Layanan Pelanggan Motor Ubud";
-
+                "Rental set to expire on: *" . Carbon::parse($this->returnDate)->format('Y M d H:i') . "*\n" .
+                "Thank you for choosing *Lavista Rental Bike*!\n\n" .
+                "Regards,\n" .
+                "Lavista Rental Bike Customer Service Team";
         
     }
 
@@ -79,7 +79,11 @@ class ExtensionReminder implements ShouldQueue
     private function email_payload(Booking $booking) : void
     {
         $this->data = [
-            'message' => $this->message
+            'full_name' => $booking->full_name,
+            'motor_name' => $booking->motor_name,
+            'total_unit' => $booking->total_unit,
+            'package' => $booking->package,
+            'return_date' => Carbon::parse($this->returnDate)->format('Y M d H:i'),
         ];
     }
 }

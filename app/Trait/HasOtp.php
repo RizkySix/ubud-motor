@@ -16,7 +16,7 @@ trait HasOtp
         
         //masukan kedalam database dan hapus dulu seluruh record untuk user yang sama
         DB::table('otp_codes')->where('user_id' , $userId)->delete();
-        DB::table('otp_codes')->insert(['user_id' => $userId , 'otp_code' => $otpCode]);
+        DB::table('otp_codes')->insert(['user_id' => $userId , 'otp_code' => $otpCode , 'expired_time' => now()->addHour(1)]);
 
         return $otpCode;
     }

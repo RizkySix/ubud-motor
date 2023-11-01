@@ -33,7 +33,6 @@ class AddRentalExtensionAction
                 $data['package'] = Booking::booking_package_information($getPrice->package , $dailyDuration);
             }
 
-
             //insert rental extension
             $rentalExtension = RentalExtension::create([
                 'uuid' => $data['uuid'],

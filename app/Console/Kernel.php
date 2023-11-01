@@ -20,9 +20,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->job(new UnActiveBooking())->dailyAt('23:00');
         $schedule->job(new UnConfirmedBooking())->dailyAt('23:00');
-        $schedule->job(new PaymentReminder())->hourly();
+        $schedule->job(new PaymentReminder())->hourlyAt(0);
         $schedule->job(new ExtensionReminder())->dailyAt('15:00');
-        $schedule->job(new ChargeMotor())->everyMinute();
+        $schedule->job(new ChargeMotor())->hourlyAt(0);
     }
 
     /**

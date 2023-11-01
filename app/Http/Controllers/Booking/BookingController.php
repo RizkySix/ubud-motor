@@ -18,6 +18,7 @@ use App\Http\Requests\Booking\CalculatePriceBookingRequest;
 use App\Http\Requests\Booking\RentalExtensionRequest;
 use App\Http\Requests\Catalog\RelatedPriceRequest;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\CatalogPriceResource;
 use App\Http\Resources\RentalExtenseionResource;
 use App\Models\Booking;
 use App\Models\CatalogPrice;
@@ -55,11 +56,11 @@ class BookingController extends Controller
      */
     public function get_related_price(RelatedPriceRequest $request) : JsonResponse
     {
-        $validatedData = $request->validated();
+        $request->validated();
 
-        $response = GetRelatedPriceAction::handle_action($validatedData['motor']);
+        $response = GetRelatedPriceAction::handle_action($request->get('catalog'));
 
-        return $this->custom_response($response , $response , 200 , 404 , 'Nothing match for that motor');
+        return $this->custom_response($response , CatalogPriceResource::collection($response) , 200 , 404 , 'Nothing match for that motor');
     }
 
     /**

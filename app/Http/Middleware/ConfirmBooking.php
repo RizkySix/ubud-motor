@@ -16,13 +16,25 @@ class ConfirmBooking
     public function handle(Request $request, Closure $next): Response
     {
         $booking = $request->route('booking');
-
+    
         if($booking->is_confirmed){
-            return response()->json([
-                'status' => false,
-                'data' => 'This booking was confirmed'
-            ] , 422);
+            return $this->custom_response('This booking was confirmed');
+        }
+
+        if(!$booking->is_active){
+           return $this->custom_response('This booking was expired');
         }
         return $next($request);
+    }
+
+    /**
+     * Custom response
+     */
+    private function custom_response(string $msg , int $status = 422)
+    {
+        return response()->json([
+            'status' => false,
+            'data' => $msg
+        ] , $status);
     }
 }
