@@ -26,12 +26,12 @@ class UpdatePriceCatalogRequest extends FormRequest
      */
     public function rules(): array
     {  
-        $priceInstace = $this->route('price');
+        //$priceInstace = $this->route('price');
         return [
-            'package' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_prices' , 'package')->where('catalog_motor_id' , $priceInstace->catalog_motor_id)->ignore($priceInstace)],
             'price' => 'required|numeric',
-            'duration' => 'required|numeric|min:1',
-            'duration_suffix' => 'required|string|min:3'
+           /*  'package' => ['required' , 'string' , 'min:3' , Rule::unique('catalog_prices' , 'package')->where('catalog_motor_id' , $priceInstace->catalog_motor_id)->ignore($priceInstace)],
+            'duration' => 'nullable|numeric|min:1',
+            'duration_suffix' => 'nullable|string|min:3' */
         ];
     }
 
