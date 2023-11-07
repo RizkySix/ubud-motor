@@ -26,13 +26,19 @@ class CalculatePriceBookingRequest extends FormRequest
     {
         return [
             'package' => 'required|numeric',
+            'type' => 'nullable|string',
             'total_unit' => 'required|numeric|min:1',
             'rental_date' => 'required|date|after_or_equal:' . now(),
-            'return_date' => 'nullable|date|minimun_two_days_of_booking|after_or_equal:rental_date',
+            'return_date' => [
+                'nullable',
+                'date',
+                'after:rental_date',
+                !$this->filled('type') ? 'minimun_two_days_of_booking' : '', 
+            ],
             'rental_duration' => 'nullable|numeric'
         ];
     }
-
+    
     protected function failedValidation(Validator $validator)
     {
         $this->validation_error($validator);

@@ -25,7 +25,7 @@ class BookingRequest extends FormRequest
      */
     public function rules(): array
     {
-        $cardImage = '|file|mimes:jpg,jpeg,png|max:5400';
+        $cardImage = '|file|mimes:jpg,jpeg,png,pdf|max:5400';
         return [
             'full_name' => 'required|string|min:3',
             'total_unit' => 'required|numeric|min:1',
@@ -34,7 +34,7 @@ class BookingRequest extends FormRequest
             'motor_name' => 'required|string',
             'package' => 'required|numeric',
             'amount' => 'required|numeric',
-            'delivery_address' => 'required|string',
+            'delivery_address' => 'nullable|string',
             'pickup_address' => 'required|string',
             'rental_date' => 'required|date|after_or_equal:' . now(),
             'return_date' => 'nullable|date|minimun_two_days_of_booking|after_or_equal:rental_date',
@@ -64,7 +64,7 @@ class BookingRequest extends FormRequest
             'package.numeric' => 'The package must be a number.',
             'amount.required' => 'The amount field is required.',
             'amount.numeric' => 'The amount must be a number.',
-            'delivery_address.required' => 'The delivery address field is required.',
+            //'delivery_address.required' => 'The delivery address field is required.',
             'delivery_address.string' => 'The delivery address must be a string.',
             'pickup_address.required' => 'The pickup address field is required.',
             'pickup_address.string' => 'The pickup address must be a string.',
@@ -77,7 +77,7 @@ class BookingRequest extends FormRequest
             'rental_duration.numeric' => 'The rental duration must be a number.',
             'card_image.required' => 'The card image field is required.',
             'card_image.file' => 'The card image must be a file.',
-            'card_image.mimes' => 'The card image must be in one of the following formats: jpg, jpeg, png.',
+            'card_image.mimes' => 'The card image must be in one of the following formats: jpg, jpeg, png, pdf.',
             'card_image.max' => 'The card image may not be greater than :max kilobytes.',
             'additional_message.string' => 'The additional message must be a string.',
 

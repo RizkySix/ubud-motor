@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('motor_name' , 30);
             $table->string('package' , 50);
             $table->decimal('amount' , 10 , 2 , true);
-            $table->string('delivery_address');
+            $table->string('delivery_address')->nullable();
             $table->string('pickup_address');
             $table->string('card_image');
             $table->dateTime('expired_payment');
