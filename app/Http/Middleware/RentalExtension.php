@@ -70,10 +70,11 @@ class RentalExtension
        
         //pastikan new return date minimal 2 hari setelah old return date
         if($request->return_date){
-            $oldReturnDate = Carbon::parse($this->getBookingDetail->return_date);
+            $oldReturnDate = Carbon::parse($this->getBookingDetail->return_date)->format('Y-m-d');
+            $oldReturnDate = Carbon::parse($oldReturnDate);
         
-            if($oldReturnDate->diffInDays($request->return_date) < 2 || $oldReturnDate > $request->return_date){
-                return $this->custom_response('New return date should 2 days ahead from old return date');
+            if($oldReturnDate->diffInDays($request->return_date) < 1 || $oldReturnDate > $request->return_date){
+                return $this->custom_response('Extension should 1 day longer');
             }
         }
 

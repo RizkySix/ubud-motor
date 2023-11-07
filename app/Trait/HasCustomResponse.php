@@ -65,9 +65,9 @@ trait HasCustomResponse
     /**
      * Make intereval days for daily package
      */
-    public static function daily_interval(string $rentalDate , string $returnDate) : int
+    public static function daily_interval(string $rentalDate , string $returnDate , int $plusDay = 1) : int
     {
-        return Carbon::parse($returnDate)->diffInDays($rentalDate);
+        return Carbon::parse($returnDate)->diffInDays($rentalDate) + $plusDay;
     }
 
     /**
@@ -93,7 +93,7 @@ trait HasCustomResponse
     /**
      * Whatsapp notification sender
      */
-    public function whatsapp_notification($phoneNumber , string $message) : void
+    public function whatsapp_notification(mixed $phoneNumber , string $message) : void
     {
         Http::withHeaders(['Authorization' => env('FONTE_API_TOKEN' , '')])->post('https://api.fonnte.com/send', [
             'target' => $phoneNumber,

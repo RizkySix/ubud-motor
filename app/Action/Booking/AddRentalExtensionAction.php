@@ -29,8 +29,13 @@ class AddRentalExtensionAction
                 $data['package'] = Booking::booking_package_information($getPrice->package , $getPrice->duration , $data['rental_duration']);
                 
             }else{
-                $dailyDuration = HasCustomResponse::daily_interval($bookingDetail->return_date , $data['return_date']);
+                
+                $oldReturnDate = Carbon::parse($bookingDetail->return_date);
+                $data['return_date'] = Carbon::parse($data['return_date'])->setTime($oldReturnDate->hour, $oldReturnDate->minute, $oldReturnDate->second);
+
+                $dailyDuration = HasCustomResponse::daily_interval($bookingDetail->return_date , $data['return_date'] , 0);
                 $data['package'] = Booking::booking_package_information($getPrice->package , $dailyDuration);
+
             }
 
             //insert rental extension

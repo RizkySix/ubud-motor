@@ -77,4 +77,14 @@ class RentalExtension extends Model
             get: fn(string $value) => Carbon::parse($value)->diffForHumans()
         );
     }
+
+    /**
+     * Accesor is Confirmed
+     */
+    protected function isConfirmed() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => (int)$value
+        );
+    }
 }

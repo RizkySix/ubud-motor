@@ -80,6 +80,36 @@ class Booking extends Model
         );
     }
 
+    /**
+     * Accesor is confirmed
+     */
+    protected function isConfirmed() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => (int)$value
+        );
+    }
+
+    /**
+     * Accesor is Active
+     */
+    protected function isActive() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => (int)$value
+        );
+    }
+
+    /**
+     * Accesor is Notified
+     */
+    protected function isNotified() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => (int)$value
+        );
+    }
+
 
     /**
      * Accesor for createad_at

@@ -64,4 +64,14 @@ class BookingDetail extends Model
             set: fn(string $value) => Carbon::parse($value)->format('Y-m-d H:i:s')
         );
     }
+
+    /**
+     * Accesor is Done
+     */
+    protected function isDone() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => (int)$value
+        );
+    }
 }

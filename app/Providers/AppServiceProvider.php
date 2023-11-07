@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
             $rentalDate = $validator->getData()['rental_date'];
             $returnDate = Carbon::parse($value);
             
-            return $returnDate->diffInDays($rentalDate) >= 2;
-        });
+            return $returnDate->diffInDays($rentalDate) >= 1;
+        } , 'minimum 2 days of booking');
 
     }
 }

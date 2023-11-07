@@ -35,6 +35,7 @@ class AddBookingAction
             }else{
                 $dailyDuration = HasCustomResponse::daily_interval($data['rental_date'] , $data['return_date']);
                 $data['package'] = Booking::booking_package_information($getPrice->package , $dailyDuration);
+                $data['return_date'] = Carbon::parse($data['return_date'])->addDays(1);
             }
 
             if($request->file('card_image')){
@@ -54,7 +55,7 @@ class AddBookingAction
                 'motor_name' => $data['motor_name'],
                 'package' => $data['package'],
                 'amount' => $data['amount'],
-                'delivery_address' => $data['delivery_address'],
+                'delivery_address' => isset($data['delivery_address']) ? $data['delivery_address'] : null,
                 'pickup_address' => $data['pickup_address'],
                 'expired_payment' => Carbon::parse($data['rental_date'])->addDays(1),
                 'card_image' => $cardImage,
