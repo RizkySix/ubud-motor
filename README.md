@@ -10,7 +10,7 @@
 ## About Project
 
 Project freelace untuk Lavista Rental Bike ubud-canggu. Ini adalah backend dari project ini yang menangani logika dari sistem booking, perpanjangan sewa, denda, dashboard admin dan lain sebagainya.
-Dibuat menggunakan Laravel Breeze API dan sanctum sebagai authenticationnya, dan juga menerapkan clean code.
+Dibuat menggunakan Laravel Breeze API dan sanctum sebagai authenticationnya, dan juga menerapkan clean code. Silahkan kunjungi tautan ini: https://clientlavista.shalltears.cloud/
 
 ## How To Use
 - composer install
