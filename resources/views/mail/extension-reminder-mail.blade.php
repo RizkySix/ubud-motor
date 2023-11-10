@@ -53,7 +53,7 @@
         <p>We appreciate your choice to rent from <span class="bold">{{ env('MAIL_APP_NAME') }}</span>!</p>
         <p>Warm regards,</p>
         <p>The <span class="bold">{{ env('MAIL_APP_NAME') }} Customer Service Team</span></p>
-        <a class="btn" href="http://localhost:5173/">Extend Rental</a>
+        <a class="btn" href="{{ env('FRONTEND_URL') }}">Extend Rental</a>
     </div>
 </body>
 </html>

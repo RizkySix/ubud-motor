@@ -70,7 +70,7 @@
         </li>
       </ul>
 
-      <p>For further order details, please check by visiting our website and logging in to your account, <a href="http://localhost:5173/">http://localhost:5173/</a></p>
+      <p>For further order details, please check by visiting our website and logging in to your account, <a href="{{ env('FRONTEND_URL') }}">http://localhost:5173/</a></p>
     </div>
 
     <div class="footer">

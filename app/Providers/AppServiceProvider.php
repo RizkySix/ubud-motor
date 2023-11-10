@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
             $returnDate = Carbon::parse($value);
             
             return $returnDate->diffInDays($rentalDate) >= 1;
-        } , 'minimum 2 days of booking');
+        } , 'Minimum 2 days of booking');
 
     }
 }

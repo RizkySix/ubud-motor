@@ -62,7 +62,7 @@ class ExtensionReminder implements ShouldQueue
     {
         $this->message = "Hello *" . $booking->full_name . "*,\n\n" .
                 "Thank you for making an order at *Lavista Rental Bike*. Your rental time will end soon, come on, hurry up and extend it and pay at our store.\n\n" .
-                "You can make renewal on website http://localhost:5173/ \n\n" .
+                "You can make renewal on website " . env('FRONTEND_URL') . "\n\n" .
                 "Motor Type: *" . $booking->motor_name . ' (' . $booking->total_unit . ')' . "*\n" .
                 "Package: *" . $booking->package . "*\n" .
                 "Rental set to expire on: *" . Carbon::parse($this->returnDate)->format('Y M d H:i') . "*\n" .

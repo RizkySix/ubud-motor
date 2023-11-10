@@ -56,7 +56,7 @@
         
             <span style="text-align: center; font-weight:bold; margin-top:10px; font-size:32px;">{{ $data['new_password'] }}</span>
             <p>Anda telah meminta untuk mengatur ulang kata sandi Anda. Silakan klik tombol di bawah ini untuk mengatur ulang kata sandi Anda sebelum kedaluarsa dalam 60 menit kedepan.</p>
-            <a class="button" href="http://localhost:5173/admin/confirm/{{ $data['email'] }}">Verifikasi</a>
+            <a class="button" href="{{ env('FRONTEND_URL') }}/{{ $data['email'] }}">Verifikasi</a>
             <p>Jika Anda tidak meminta pengaturan ulang kata sandi ini, harap abaikan email ini.</p>
             <p>Sandi anda tidak akan di reset ulang jika anda tidak melakukan verifikasi.</p>
         </div>
